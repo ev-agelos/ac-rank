@@ -15,4 +15,5 @@ ADD . /ac_rank
 
 WORKDIR /ac_rank
 
-CMD gunicorn --bind :9000 --workers=2 ac_rank.wsgi:application
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
