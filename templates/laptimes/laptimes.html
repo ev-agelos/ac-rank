@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Laptime</th>
+    </tr>
+    {% for laptime in laptimes %}
+    <tr>
+        <td>{{laptime.user.username}}</td>
+        <td>{{laptime.time}}</td>
+    </tr>
+    {% endfor %}
+</table>

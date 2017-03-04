@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+eggs/
+.eggs/
+build/
+*.egg-info/
+*.egg
+
+*/settings/__init__.py
+
