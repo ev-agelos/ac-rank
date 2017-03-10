@@ -10,4 +10,4 @@ python manage.py migrate
 
 # Start server
 echo "Starting server"
-gunicorn ac_rank.wsgi:application --bind :9000 --workers=2
+gunicorn ac_rank.wsgi:application --bind :9001 --workers=2
