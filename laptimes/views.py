@@ -9,7 +9,6 @@ from .models import Laptime
 
 
 def laptimes(request):
-    import pdb; pdb.set_trace()
     laptimes = Laptime.objects.all()
     return render(request, 'laptimes/laptimes.html',
                   context=dict(laptimes=laptimes))
