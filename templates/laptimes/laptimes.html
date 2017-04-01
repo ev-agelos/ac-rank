@@ -1,12 +1,22 @@
-<table>
+<table cellspacing=30>
     <tr>
+        <th>Position</th>
         <th>Username</th>
+        {% if splits_laptimes %}
+            {% for sector in splits_laptimes.0.0.sector_times %}
+            <th>Sector {{forloop.counter}}</th>
+            {% endfor %}
+        {% endif %}
         <th>Laptime</th>
     </tr>
-    {% for laptime in laptimes %}
+    {% for splits, laptime in splits_laptimes %}
     <tr>
-        <td>{{laptime.user.username}}</td>
-        <td>{{laptime.time}}</td>
+        <td>{{forloop.counter}}</td>
+        <td>{{splits.user.username}}</td>
+        {% for sector in splits.sector_times %}
+        <td>{{sector}}</td>
+        {% endfor %}
+        <td>{{laptime}}</td>
     </tr>
     {% endfor %}
 </table>
