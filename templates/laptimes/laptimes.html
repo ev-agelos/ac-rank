@@ -1,22 +1,26 @@
+ <form method="POST" class="post-form">{% csrf_token %}
+     {{form.as_p}}
+    <button type="submit">Show</button>
+</form>
+
+
 <table cellspacing=30>
     <tr>
         <th>Position</th>
         <th>Username</th>
-        {% if splits_laptimes %}
-            {% for sector in splits_laptimes.0.0.sector_times %}
-            <th>Sector {{forloop.counter}}</th>
-            {% endfor %}
-        {% endif %}
+        {% for i in track_sectors %}
+        <th>Sector {{forloop.counter}}</th>
+        {% endfor %}
         <th>Laptime</th>
     </tr>
-    {% for splits, laptime in splits_laptimes %}
+    {% for laptime in laptimes %}
     <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{splits.user.username}}</td>
-        {% for sector in splits.sector_times %}
-        <td>{{sector}}</td>
+        <td>{{laptime.user.username}}</td>
+        {% for i in track_sectors %}
+        <td>{{forloop.counter}}</td>
         {% endfor %}
-        <td>{{laptime}}</td>
+        <td>{{laptime.time}}</td>
     </tr>
     {% endfor %}
 </table>
