@@ -44,10 +44,10 @@ class Car(models.Model):
 
 class Laptime(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     splits = ArrayField(models.PositiveIntegerField())
-    track = models.OneToOneField(Track)
-    car = models.OneToOneField(Car)
+    track = models.ForeignKey(Track)
+    car = models.ForeignKey(Car)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
