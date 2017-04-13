@@ -53,7 +53,11 @@ class Laptime(models.Model):
 
     @property
     def time(self):
-        return str(datetime.timedelta(seconds=sum(self.splits) / 1000))[:-3]
+        timedelta = datetime.timedelta(seconds=sum(self.splits) / 1000)
+        minutes = int(timedelta.total_seconds() // 60)  # remove floating
+        seconds = int(timedelta.seconds)  # remove floating
+        milliseconds = timedelta.microseconds // 1000
+        return '{}:{}.{:03d}'.format(minutes, seconds, milliseconds)
 
     def __str__(self):
         return self.time
