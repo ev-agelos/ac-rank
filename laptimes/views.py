@@ -10,7 +10,7 @@ from .forms import LaptimesForm
 
 
 def laptimes(request):
-    laptimes, sectors = [], range(0)
+    sorted_laptimes, sectors = [], range(0)
     if request.method == 'GET':
         form = LaptimesForm()
     else:
@@ -19,9 +19,11 @@ def laptimes(request):
             track = get_object_or_404(Track, name=form.cleaned_data['track'])
             car = get_object_or_404(Car, name=form.cleaned_data['car'])
             laptimes = Laptime.objects.filter(track=track, car=car).all()
+            sorted_laptimes = sorted(laptimes,
+                                     key=lambda laptime: laptime.total_millis)
             sectors = range(track.sectors)
     return render(request, 'laptimes/laptimes.html',
-                  context=dict(laptimes=laptimes, track_sectors=sectors,
+                  context=dict(laptimes=sorted_laptimes, track_sectors=sectors,
                                form=form))
 
 

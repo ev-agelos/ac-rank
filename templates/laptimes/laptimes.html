@@ -17,10 +17,10 @@
     <tr>
         <td>{{forloop.counter}}</td>
         <td>{{laptime.user.username}}</td>
-        {% for i in track_sectors %}
-        <td>{{forloop.counter}}</td>
+        {% for split in laptime.splits_to_str %}
+        <td>{{split}}</td>
         {% endfor %}
-        <td>{{laptime.time}}</td>
+        <td>{{laptime.time_to_str}}</td>
     </tr>
     {% endfor %}
 </table>
