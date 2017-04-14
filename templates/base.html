@@ -1,8 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    {% block title %}{% endblock title %}
-</head>
-<body>
-    {% block content %}{% endblock content %}
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>{% block title %}{% endblock title %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      {% block content%}{% endblock content %}
+
+    <footer class="footer">
+      <p>&copy; AC-Dashboard 2017</p>
+    </footer>
+
+    </div> <!-- /container -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
