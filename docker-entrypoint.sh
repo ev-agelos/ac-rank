@@ -9,7 +9,6 @@ echo "Apply database migrations"
 python manage.py migrate
 
 # Create superuser if does not exist
-echo "Create superuser if does not exist"
 script="
 from django.contrib.auth.models import User;
 
@@ -23,9 +22,8 @@ if User.objects.filter(username=username).count()==0:
 else:
     print('Superuser creation skipped.');
 "
-printf "$script" | python manage.py shell
+python manage.py shell -c "$script"
 
 # Start server
 echo "Starting server"
-echo "Superuser is $SUPERUSER"
 gunicorn ac_rank.wsgi:application --bind :9001 --workers=2
