@@ -1,30 +1,93 @@
 {% extends 'base.html' %}
-
+{% block title %}Laptimes ranking{% endblock title %}
 {% block content %}
- <form method="POST" class="post-form">{% csrf_token %}
-     {{form.as_p}}
-    <button type="submit">Show</button>
-</form>
+<div class="row">
+    <div class="col-2 pl-4 pt-5">
+        <form method="GET">
+            {% for form_field in form %}
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <select class="custom-select" id="inlineFormCustomSelect" name="{{form_field.name}}">
+                        {% for value, choice in form_field.field.choices %}
+                        <option value="{{value}}" {% if value in request.GET.values %}selected{% endif %}>{{choice}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
+                {% for msg in form_field.errors %}
+                <div class="form-group has-danger">
+                    <div class="form-control-feedback">{{msg}}</div>
+                </div>
+                {% endfor %}
 
-<table cellspacing=30>
-    <tr>
-        <th>Position</th>
-        <th>Username</th>
-        {% for i in track_sectors %}
-        <th>Sector {{forloop.counter}}</th>
-        {% endfor %}
-        <th>Laptime</th>
-    </tr>
-    {% for laptime in laptimes %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{laptime.user.username}}</td>
-        {% for split in laptime.splits_to_str %}
-        <td>{{split}}</td>
-        {% endfor %}
-        <td>{{laptime.time_to_str}}</td>
-    </tr>
-    {% endfor %}
-</table>
+            </div>
+            {% endfor %}
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <button type="submit" class='btn btn-primary'>Show</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-8">
+        <div class="container">
+            <table class='table table-hover'>
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Driver</th>
+                        {% for i in track_sectors %}
+                        <th>Sector {{forloop.counter}}</th>
+                        {% endfor %}
+                        <th>Lap</th>
+                        <th>Diff</th>
+                        <th>Date</th>
+                    </tr>
+                <thead>
+                <tbody>
+                {% for laptime, diff_to_prev in laptimes %}
+                    <tr>
+                        <td class="text-success font-weight-bold">{{forloop.counter}}</td>
+                        <td>{{laptime.user.username}}</td>
+                        {% for split in laptime.splits_to_str %}
+                        <td class="text-warning">{{split}}</td>
+                        {% endfor %}
+                        <td>{{laptime}}</td>
+                        <td>{% if diff_to_prev %}+{{diff_to_prev}}{% endif %}</td>
+                        <td>{{laptime.created_at|date:'d-m-Y'}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if laptimes.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?car={{request.GET.car}}&track={{request.GET.track}}&page={{laptimes.previous_page_number}}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{laptimes.number|default:"1"}}</a>
+                    </li>
+
+                    {% if laptimes.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?car={{request.GET.car}}&track={{request.GET.track}}&page={{laptimes.next_page_number}}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
 {% endblock content %}

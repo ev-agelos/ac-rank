@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,21 +12,45 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
-    <link href="narrow-jumbotron.css" rel="stylesheet">
+    <link href="{% static 'css/sticky-footer.css' %}" rel="stylesheet">
+    {% block custom_css %}{% endblock custom_css %}
   </head>
 
   <body>
     <div class="container">
-      {% block content%}{% endblock content %}
+        <div class="header clearfix">
+            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="#">AC-Ranking</a>
 
-    <footer class="footer">
-      <p>&copy; AC-Dashboard 2017</p>
-    </footer>
-
+                <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'drivers' %}active{% endif %}" href="{% url 'drivers' %}">Drivers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'laptimes' %}active{% endif %}" href="{% url 'laptimes' %}">Rankings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'auth_login' %}active{% endif %}" href="{% url 'auth_login' %}">Sign in</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </div> <!-- /container -->
-
+    {% block content %}{% endblock content %}
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; AC-Ranking 2017</p>
+        </div>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <!-- Bootstrap core JavaScript
@@ -33,6 +58,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-
+    {% block custom_scripts %}{% endblock custom_scripts %}
   </body>
 </html>

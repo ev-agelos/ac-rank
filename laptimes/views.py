@@ -1,7 +1,7 @@
 import json
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
-
 from tokenapi.decorators import token_required
 from tokenapi.http import JsonResponse, JsonError
 
@@ -10,21 +10,39 @@ from .forms import LaptimesForm
 
 
 def laptimes(request):
-    sorted_laptimes, sectors = [], range(0)
-    if request.method == 'GET':
+    laptimes_with_diffs = []
+    sectors = 0
+    if not all([request.GET.get(arg) for arg in ('track', 'car')]):
         form = LaptimesForm()
+        sectors = 0
     else:
-        form = LaptimesForm(request.POST)
+        form = LaptimesForm(request.GET)
         if form.is_valid():
             track = get_object_or_404(Track, name=form.cleaned_data['track'])
             car = get_object_or_404(Car, name=form.cleaned_data['car'])
             laptimes = Laptime.objects.filter(track=track, car=car).all()
-            sorted_laptimes = sorted(laptimes,
-                                     key=lambda laptime: laptime.total_millis)
-            sectors = range(track.sectors)
-    return render(request, 'laptimes/laptimes.html',
-                  context=dict(laptimes=sorted_laptimes, track_sectors=sectors,
-                               form=form))
+            laptimes = sorted(laptimes, key=lambda obj: obj.total_millis)
+            for index, laptime in enumerate(laptimes):
+                if index > 0:
+                    diff = laptime.diff_repr_from(laptimes[index-1])
+                else:
+                    diff = 0
+                laptimes_with_diffs.append((laptime, diff))
+            sectors = track.sectors
+
+            paginator = Paginator(laptimes_with_diffs, 10)
+            page = request.GET.get('page')
+            try:
+                laptimes_with_diffs = paginator.page(page)
+            except PageNotAnInteger:
+                # If page is not an integer, deliver first page.
+                laptimes_with_diffs = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range (e.g. 9999), deliver last page of results.
+                laptimes_with_diffs = paginator.page(paginator.num_pages)
+    context = dict(laptimes=laptimes_with_diffs, track_sectors=range(sectors),
+                   form=form)
+    return render(request, 'laptimes/laptimes.html', context=context)
 
 
 @token_required

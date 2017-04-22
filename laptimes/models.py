@@ -55,8 +55,9 @@ class Laptime(models.Model):
     def total_millis(self):
         return sum(self.splits)
 
-    def time_to_str(self):
-        timedelta = datetime.timedelta(milliseconds=self.total_millis)
+    @staticmethod
+    def millis_to_str(millis):
+        timedelta = datetime.timedelta(milliseconds=millis)
         minutes = timedelta.seconds // 60
         seconds = timedelta.total_seconds() - (minutes * 60)
         return '{:02d}:{:06.3f}'.format(minutes, seconds)
@@ -70,5 +71,12 @@ class Laptime(models.Model):
             splits.append('{:01d}:{:06.3f}'.format(minutes, seconds))
         return splits
 
+    def diff_repr_from(self, laptime):
+        """Return the difference representation from another laptime."""
+        millis = sum(self.splits) - sum(laptime.splits)
+        seconds = millis / 1000
+        return '{:-6.3f}'.format(seconds)
+
     def __str__(self):
-        return self.time_to_str()
+        """Return the string represantation of the object."""
+        return self.millis_to_str(self.total_millis)

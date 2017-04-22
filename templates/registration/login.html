@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign In{% endblock title %}
+
+{% block custom_css %}<link href="{% static "css/signin.css" %}" rel="stylesheet">{% endblock custom_css %}
+
+{% block content %}
+<form method="POST" class="form-signin">{% csrf_token %}
+    <h2 class="form-signin-heading">Sign in</h2>
+
+    <div class="form-group {% if form.username.errors %}has-danger{% endif %}">
+        <input type="text" class="form-control {% if form.username.errors %}form-control-danger{% endif %}" id="usernameId" placeholder="{{form.username.label}}">
+        <div class="form-control-feedback">{{form.username.errors}}</div>
+        <small id="usernameHelp" class="form-text text-muted">{{form.username.help_text}}</small>
+    </div>
+
+    <div class="form-group {% if form.password.errors %}has-danger{% endif %}">
+        <input type="password" class="form-control {% if form.password.errors %}form-control-danger{% endif %}" id="passwordId" placeholder="{{form.password.label}}">
+        <div class="form-control-feedback">{{form.password.errors}}</div>
+        <small id="passwordHelp" class="form-text text-muted">{{form.password.help_text}}</small>
+    </div>
+
+    <button type="submit" class='btn btn-lg btn-primary btn-block'>Register</button>
+
+    <br>
+    <p>Forgot your password? <a href="/accounts/password/reset/">Reset it</a></p>
+    <p>Not a member? <a href="{% url 'registration_register' %}">Sign up</a></p>
+
+</form>
+{% endblock content %}
