@@ -11,10 +11,12 @@ RUN apk add --update postgresql-dev gcc python3-dev musl-dev && \
     pip install --upgrade pip && pip install setuptools --upgrade && \
     pip install -r /tmp/requirements.txt
 
+# for static files
+RUN mkdir -p /var/www/ac-rank/static/
+
 ADD . /ac_rank
-
 WORKDIR /ac_rank
-
 COPY ./docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
+
 ENTRYPOINT ["/docker-entrypoint.sh"]

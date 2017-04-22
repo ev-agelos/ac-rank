@@ -2,6 +2,9 @@ from .common import *
 
 DEBUG = False
 
+STATIC_ROOT = "/var/www/ac-rank/static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
+
 ALLOWED_HOSTS = ['*']  # should be configured by Nginx
 
 SESSION_COOKIE_SECURE = True

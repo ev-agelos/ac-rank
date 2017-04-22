@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.conf.urls import include, url, static
 from django.contrib import admin
 from django.conf import settings
 
@@ -12,3 +12,5 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
+    urlpatterns += static.static(settings.STATIC_URL,
+                                 document_root=settings.STATIC_ROOT)
