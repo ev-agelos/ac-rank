@@ -10,18 +10,18 @@
     <h2 class="form-signin-heading">Sign in</h2>
 
     <div class="form-group {% if form.username.errors %}has-danger{% endif %}">
-        <input type="text" class="form-control {% if form.username.errors %}form-control-danger{% endif %}" id="usernameId" placeholder="{{form.username.label}}">
+        <input type="text" class="form-control {% if form.username.errors %}form-control-danger{% endif %}" id="usernameId" name="username" placeholder="{{form.username.label}}">
         <div class="form-control-feedback">{{form.username.errors}}</div>
         <small id="usernameHelp" class="form-text text-muted">{{form.username.help_text}}</small>
     </div>
 
     <div class="form-group {% if form.password.errors %}has-danger{% endif %}">
-        <input type="password" class="form-control {% if form.password.errors %}form-control-danger{% endif %}" id="passwordId" placeholder="{{form.password.label}}">
+        <input type="password" class="form-control {% if form.password.errors %}form-control-danger{% endif %}" id="passwordId" name="password" placeholder="{{form.password.label}}">
         <div class="form-control-feedback">{{form.password.errors}}</div>
         <small id="passwordHelp" class="form-text text-muted">{{form.password.help_text}}</small>
     </div>
 
-    <button type="submit" class='btn btn-lg btn-primary btn-block'>Register</button>
+    <button type="submit" class='btn btn-lg btn-primary btn-block'>Sign in</button>
 
     <br>
     <p>Forgot your password? <a href="/accounts/password/reset/">Reset it</a></p>

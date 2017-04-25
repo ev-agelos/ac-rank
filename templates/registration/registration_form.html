@@ -10,25 +10,25 @@
     <h2 class="form-signin-heading">Register</h2>
 
     <div class="form-group {% if form.username.errors %}has-danger{% endif %}">
-        <input type="text" class="form-control {% if form.username.errors %}form-control-danger{% endif %}" id="usernameId" placeholder="{{form.username.label}}">
+        <input type="text" class="form-control {% if form.username.errors %}form-control-danger{% endif %}" id="usernameId" name={{form.username.name}} placeholder="{{form.username.label}}">
         <div class="form-control-feedback">{{form.username.errors}}</div>
         <small id="usernameHelp" class="form-text text-muted">{{form.username.help_text}}</small>
     </div>
 
     <div class="form-group {% if form.email.errors %}has-danger{% endif %}">
-        <input type="email" class="form-control {% if form.email.errors %}form-control-danger{% endif %}" id="emailId" placeholder="{{form.email.label}}">
+        <input type="email" class="form-control {% if form.email.errors %}form-control-danger{% endif %}" id="emailId" name={{form.email.name}} placeholder="{{form.email.label}}">
         <div class="form-control-feedback">{{form.email.errors}}</div>
         <small id="emailHelp" class="form-text text-muted">{{form.email.help_text}}</small>
     </div>
 
     <div class="form-group {% if form.password1.errors %}has-danger{% endif %}">
-        <input type="password" class="form-control {% if form.password1.errors %}form-control-danger{% endif %}" id="password1Id" placeholder="{{form.password1.label}}">
+        <input type="password" class="form-control {% if form.password1.errors %}form-control-danger{% endif %}" id="password1Id" name={{form.password1.name}} placeholder="{{form.password1.label}}">
         <div class="form-control-feedback">{{form.password1.errors}}</div>
-        <small id="password1Help" class="form-text text-muted">{{form.password1.help_text}}</small>
+        <small id="password1Help" class="form-text text-muted">{{form.password1.help_text|safe}}</small>
     </div>
 
     <div class="form-group {% if form.password2.errors %}has-danger{% endif %}">
-        <input type="password" class="form-control {% if form.password2.errors %}form-control-danger{% endif %}" id="password2Id" placeholder="{{form.password2.label}}">
+        <input type="password" class="form-control {% if form.password2.errors %}form-control-danger{% endif %}" id="password2Id" name={{form.password2.name}} placeholder="{{form.password2.label}}">
         {% for error in form.password2.errors %}
         <div class="form-control-feedback">{{error}}</div>
         {% endfor %}
