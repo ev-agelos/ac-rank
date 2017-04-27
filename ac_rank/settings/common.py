@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tokenapi',
+    'anymail',
     'laptimes',
 ]
 
@@ -124,5 +125,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 INTERNAL_IPS = ['127.0.0.1']
+
+
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 LOGIN_REDIRECT_URL = '/laptimes'
+
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": "...",
+    "MAILGUN_SENDER_DOMAIN": '...',
+}
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+DEFAULT_FROM_EMAIL = "ac-ranking@mg.pybook.site"

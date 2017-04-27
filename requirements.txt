@@ -1,6 +1,7 @@
 Django==1.11
 django-debug-toolbar==1.6
-django-registration-redux==1.4
+django-registration-redux==1.6
 django-tokenapi==0.2.5
 psycopg2==2.6.2
 gunicorn==19.6.0
+django-anymail==0.9
