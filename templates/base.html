@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="#">AC-Ranking</a>
 
                 <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
-                    <ul class="nav nav-pills">
+                    <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
                         </li>
@@ -37,9 +37,15 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'laptimes' %}active{% endif %}" href="{% url 'laptimes' %}">Rankings</a>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'auth_logout' %}">Sign out</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'auth_login' %}active{% endif %}" href="{% url 'auth_login' %}">Sign in</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>
