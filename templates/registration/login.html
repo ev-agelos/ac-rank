@@ -8,7 +8,11 @@
 {% block content %}
 <form method="POST" class="form-signin">{% csrf_token %}
     <h2 class="form-signin-heading">Sign in</h2>
-
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {{error}}
+    </div>
+    {% endfor %}
     <div class="form-group {% if form.username.errors %}has-danger{% endif %}">
         <input type="text" class="form-control {% if form.username.errors %}form-control-danger{% endif %}" id="usernameId" name="username" placeholder="{{form.username.label}}">
         <div class="form-control-feedback">{{form.username.errors}}</div>
