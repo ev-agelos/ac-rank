@@ -43,9 +43,9 @@
                         <th>Diff</th>
                         <th>Date</th>
                     </tr>
-                <thead>
+                </thead>
                 <tbody>
-                {% for laptime, diff_to_prev in laptimes %}
+                    {% for laptime, diff_to_prev in laptimes %}
                     <tr>
                         <td class="text-success font-weight-bold">{{forloop.counter}}</td>
                         <td>{{laptime.user.username}}</td>
@@ -56,7 +56,7 @@
                         <td>{% if diff_to_prev %}+{{diff_to_prev}}{% endif %}</td>
                         <td>{{laptime.created_at|date:'d-m-Y'}}</td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
 

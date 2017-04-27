@@ -44,18 +44,22 @@
                 </div>
             </nav>
         </div>
+    </div>
+
+    <div class="container-fluid">
+        {% block content %}{% endblock content %}
     </div> <!-- /container -->
-    {% block content %}{% endblock content %}
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; AC-Ranking 2017</p>
-        </div>
-    </footer>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; AC-Ranking 2017</p>
+            </div>
+        </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
     {% block custom_scripts %}{% endblock custom_scripts %}
