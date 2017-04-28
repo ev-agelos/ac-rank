@@ -5,3 +5,4 @@ django-tokenapi==0.2.5
 psycopg2==2.6.2
 gunicorn==19.6.0
 django-anymail==0.9
+raven==6.0.0
