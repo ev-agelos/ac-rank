@@ -137,4 +137,4 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": '...',
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-DEFAULT_FROM_EMAIL = "ac-ranking@mg.pybook.site"
+DEFAULT_FROM_EMAIL = "AC-Rank@mg.pybook.site"
