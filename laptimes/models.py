@@ -46,14 +46,11 @@ class Laptime(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     splits = ArrayField(models.PositiveIntegerField())
+    time = models.PositiveIntegerField()
     track = models.ForeignKey(Track)
     car = models.ForeignKey(Car)
 
     created_at = models.DateTimeField(auto_now_add=True)
-
-    @property
-    def total_millis(self):
-        return sum(self.splits)
 
     @staticmethod
     def millis_to_str(millis):
@@ -79,4 +76,4 @@ class Laptime(models.Model):
 
     def __str__(self):
         """Return the string represantation of the object."""
-        return self.millis_to_str(self.total_millis)
+        return self.millis_to_str(self.time)

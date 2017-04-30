@@ -20,8 +20,8 @@ def laptimes(request):
         if form.is_valid():
             track = get_object_or_404(Track, name=form.cleaned_data['track'])
             car = get_object_or_404(Car, name=form.cleaned_data['car'])
-            laptimes = Laptime.objects.filter(track=track, car=car).all()
-            laptimes = sorted(laptimes, key=lambda obj: obj.total_millis)
+            laptimes = Laptime.objects.filter(track=track, car=car) \
+                                      .order_by('time').all()
             for index, laptime in enumerate(laptimes):
                 if index > 0:
                     diff = laptime.diff_repr_from(laptimes[index-1])
@@ -61,8 +61,8 @@ def add(request):
         track = get_object_or_404(Track, name=track)
         car = get_object_or_404(Car, name=car)
 
-        laptime = Laptime(splits=splits, user=request.user, track=track,
-                          car=car)
+        laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
+                          track=track, car=car)
         laptime.save()
         return JsonResponse(dict(message='Lap time was saved.'))
     return JsonError('Only POST requests are allowed.')
