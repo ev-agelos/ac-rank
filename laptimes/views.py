@@ -21,7 +21,10 @@ def laptimes(request):
             track = get_object_or_404(Track, name=form.cleaned_data['track'])
             car = get_object_or_404(Car, name=form.cleaned_data['car'])
             laptimes = Laptime.objects.filter(track=track, car=car) \
-                                      .order_by('time').all()
+                                      .order_by('user', 'time') \
+                                      .distinct('user') \
+                                      .values_list('id', flat=True)
+            laptimes = Laptime.objects.filter(id__in=laptimes).order_by('time').all()
             for index, laptime in enumerate(laptimes):
                 if index > 0:
                     diff = laptime.diff_repr_from(laptimes[index-1])
