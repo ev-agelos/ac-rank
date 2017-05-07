@@ -6,14 +6,32 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class Track(models.Model):
+class Circuit(models.Model):
 
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Track(models.Model):
+
+    circuit = models.ForeignKey(Circuit, on_delete=models.CASCADE)
+    layout = models.CharField(max_length=100, null=True, blank=True)
     sectors = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)])
 
-    def humanize(self):
-        pass
+    def __str__(self):
+        if self.layout:
+            return self.circuit.name + ' ' + self.layout
+        else:
+            return self.circuit.name
+
+
+
+class Brand(models.Model):
+
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -31,15 +49,13 @@ class Car(models.Model):
         ('tuned', 'Tuned')
     )
 
-    name = models.CharField(max_length=100)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    model = models.CharField(max_length=100)
     upgrade = models.CharField(max_length=20, choices=upgrades, null=True,
                                blank=True)
 
-    def humanize(self):
-        pass
-
     def __str__(self):
-        return self.name
+        return self.brand.name + ' ' + self.model
 
 
 class Laptime(models.Model):

@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block title %}Laptimes ranking{% endblock title %}
 {% block content %}
 <div class="row">
     <div class="col-2 pl-4 pt-5">
         <form method="GET">
-            {% for form_field in form %}
+            {% for html_field in form %}
             <div class="form-group row">
                 <div class="col-sm-12">
-                    <select class="custom-select" id="inlineFormCustomSelect" name="{{form_field.name}}">
-                        {% for value, choice in form_field.field.choices %}
+                    <select class="custom-select" id="{{html_field.auto_id}}" name="{{html_field.name}}" {% if html_field.field.required %}required{% endif %}>
+                        {% for value, choice in html_field.field.choices %}
                         <option value="{{value}}" {% if value in request.GET.values %}selected{% endif %}>{{choice}}</option>
                         {% endfor %}
                     </select>
                 </div>
 
-                {% for msg in form_field.errors %}
+                {% for msg in html_field.errors %}
                 <div class="form-group has-danger">
                     <div class="form-control-feedback">{{msg}}</div>
                 </div>
@@ -91,3 +92,18 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block custom_scripts %}
+<script type="text/javascript" src="{% static 'js/laptimes.js' %}"></script>
+<script>
+    var brand_select = document.getElementById('id_brand');
+    var circuit_select = document.getElementById('id_circuit');
+    brand_select.models_per_brand = JSON.parse('{{models_per_brand|safe}}');
+    circuit_select.layouts_per_circuit = JSON.parse('{{layouts_per_circuit|safe}}');
+
+    brand_select.addEventListener('click', set_models_from_brand, false);
+    set_models_from_brand.call(brand_select);
+    circuit_select.addEventListener('click', set_layouts_from_circuit, false);
+    set_layouts_from_circuit.call(circuit_select);
+</script>
+{% endblock custom_scripts %}
