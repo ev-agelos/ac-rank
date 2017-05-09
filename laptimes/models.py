@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from rest_framework import serializers
 
 
 class Circuit(models.Model):
@@ -93,3 +94,10 @@ class Laptime(models.Model):
     def __str__(self):
         """Return the string represantation of the object."""
         return self.millis_to_str(self.time)
+
+
+class LaptimeSerialiser(serializers.ModelSerializer):
+
+    class Meta:
+        model = Laptime
+        fields = ('splits', 'time')
