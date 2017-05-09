@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'tokenapi',
     'anymail',
+    'rest_framework',
     'laptimes',
 ]
 
