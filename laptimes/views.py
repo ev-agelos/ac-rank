@@ -3,8 +3,6 @@ import json
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.aggregates.general import ArrayAgg
-from tokenapi.decorators import token_required
-from tokenapi.http import JsonResponse, JsonError
 
 from .models import Laptime, Car, Track
 from .forms import LaptimesForm
@@ -58,26 +56,3 @@ def laptimes(request):
                    form=form, models_per_brand=json.dumps(models_per_brand),
                    layouts_per_circuit=json.dumps(layouts_per_circuit))
     return render(request, 'laptimes/laptimes.html', context=context)
-
-
-@token_required
-def add(request):
-    """Add a new laptime to the database."""
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body.decode('utf-8'))
-            splits = [int(split) for split in data['splits']]
-            track, car = data['track'], data['car']
-        except (json.decoder.JSONDecodeError, ValueError):
-            return JsonError('Bad data.')
-        except KeyError as err:
-            return JsonError('Missing <{}> argument.'.format(err.args[0]))
-
-        track = get_object_or_404(Track, name=track)
-        car = get_object_or_404(Car, name=car)
-
-        laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
-                          track=track, car=car)
-        laptime.save()
-        return JsonResponse(dict(message='Lap time was saved.'))
-    return JsonError('Only POST requests are allowed.')
