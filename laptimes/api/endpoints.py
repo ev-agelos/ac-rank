@@ -41,14 +41,15 @@ def add(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
         splits = [int(split) for split in data['splits']]
-        track, car = data['track'], data['car']
+        circuit, layout = data['circuit'], data.get('layout')
+        brand, model = data['brand'], data['model']
     except (json.decoder.JSONDecodeError, ValueError):
         return JsonError('Bad data.')
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
-    track = get_object_or_404(Track, name=track)
-    car = get_object_or_404(Car, name=car)
+    track = get_object_or_404(Track, circuit__name=circuit, layout=layout)
+    car = get_object_or_404(Car, brand__name=brand, model=model)
 
     laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
                       track=track, car=car)
