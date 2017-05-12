@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'', include('tokenapi.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^laptimes/', include('laptimes.urls')),
-    url(r'^api/', include('laptimes.api.urls')),
+    url(r'^api/laptimes/', include('laptimes.api.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 if settings.DEBUG:
