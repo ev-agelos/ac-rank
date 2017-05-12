@@ -49,6 +49,8 @@ def add(request):
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
     track = get_object_or_404(Track, circuit__name=circuit, layout=layout)
+    if len(splits) != track.sectors:  # Validate splits
+        return JsonError('Bad data')
     car = get_object_or_404(Car, brand__name=brand, model=model)
 
     laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
