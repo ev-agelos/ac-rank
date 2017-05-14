@@ -7,35 +7,19 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 
 
-class Circuit(models.Model):
-
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
 class Track(models.Model):
 
-    circuit = models.ForeignKey(Circuit, on_delete=models.CASCADE)
-    layout = models.CharField(max_length=100, null=True, blank=True)
+    ac_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=50)
+    layout = models.CharField(max_length=50, null=True, blank=True)
     sectors = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)])
 
     def __str__(self):
         if self.layout:
-            return self.circuit.name + ' ' + self.layout
+            return self.name + ' ' + self.layout
         else:
-            return self.circuit.name
-
-
-
-class Brand(models.Model):
-
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
+            return self.name
 
 
 class Car(models.Model):
@@ -45,18 +29,17 @@ class Car(models.Model):
         ('s2', 'Step2'),
         ('s3', 'Step3'),
         ('drift', 'Drift'),
-        ('dtm', 'Gr.A 92'),
-        ('gra', 'Group A'),
         ('tuned', 'Tuned')
     )
 
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    ac_name = models.CharField(max_length=200)
+    brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     upgrade = models.CharField(max_length=20, choices=upgrades, null=True,
                                blank=True)
 
     def __str__(self):
-        return self.brand.name + ' ' + self.model
+        return self.brand + ' ' + self.model
 
 
 class Laptime(models.Model):

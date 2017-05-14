@@ -13,11 +13,9 @@ def laptimes(request):
     sectors = 0
     form = LaptimesForm(request.GET or None)
     if form.is_valid():
-        track = get_object_or_404(Track,
-                                  circuit__name=form.cleaned_data['circuit'],
+        track = get_object_or_404(Track, name=form.cleaned_data['track'],
                                   layout=form.cleaned_data['layout'])
-        car = get_object_or_404(Car,
-                                brand__name=form.cleaned_data['brand'],
+        car = get_object_or_404(Car, brand=form.cleaned_data['brand'],
                                 model=form.cleaned_data['model'])
         laptimes = Laptime.objects.filter(track=track, car=car) \
                                   .order_by('user', 'time') \
@@ -46,13 +44,13 @@ def laptimes(request):
 
     models_per_brand = dict(Car.objects.values('brand')
                             .annotate(models=ArrayAgg('model'))
-                            .values_list('brand__name', 'models'))
-    layouts_per_circuit = dict(
-        Track.objects.exclude(layout=None).values('circuit')
+                            .values_list('brand', 'models'))
+    layouts_per_track = dict(
+        Track.objects.exclude(layout=None).values('name')
         .annotate(layouts=ArrayAgg('layout'))
-        .values_list('circuit__name', 'layouts'))
+        .values_list('name', 'layouts'))
 
     context = dict(laptimes=laptimes_with_diffs, track_sectors=range(sectors),
                    form=form, models_per_brand=json.dumps(models_per_brand),
-                   layouts_per_circuit=json.dumps(layouts_per_circuit))
+                   layouts_per_track=json.dumps(layouts_per_track))
     return render(request, 'laptimes/laptimes.html', context=context)

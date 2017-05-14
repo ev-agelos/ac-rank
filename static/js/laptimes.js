@@ -1,20 +1,24 @@
-function _set_select_options(options, first_option){
+function _set_select_options(options){
     var pre_value = this.value;
-    var option_html = "<option value=''>" + first_option + "</option>";
+    var option_html = "<option value=''>Select " + this.name + "</option>";
     for (var i = 0; i < options.length; i++) {
         option_html += "<option value='" + options[i] + "'>" + options[i] + "</option>";
     };
     $('#' + this.id).empty();
     $('#' + this.id).append(option_html);
-    this.value = pre_value;
+
+    if (options.includes(pre_value)){
+        this.value = pre_value;
+    }else{
+        this.selectedIndex = 0;
+    };
 };
 
 
 function set_models_from_brand() {
     if (this.selectedIndex !== 0){
         var model_select = document.getElementById('id_model');
-        var options = this.models_per_brand[this.value];
-        _set_select_options.call(model_select, options, 'Select car brand');
+        _set_select_options.call(model_select, this.models_per_brand[this.value]);
         model_select.disabled = false;
     }else{
         $('#id_model')[0].selectedIndex = 0;  // Reset to 1st option
@@ -23,13 +27,12 @@ function set_models_from_brand() {
 };
 
 
-function set_layouts_from_circuit() {
-    if (this.selectedIndex !== 0 && this.value in this.layouts_per_circuit){
-        var options = this.layouts_per_circuit[this.value];
+function set_layouts_from_track() {
+    if (this.selectedIndex !== 0 && this.value in this.layouts_per_track){
         var layout_select = document.getElementById('id_layout');
-        _set_select_options.call(layout_select, options, 'Select track layout');
+        _set_select_options.call(layout_select, this.layouts_per_track[this.value]);
         layout_select.disabled = false;
-        $('#id_layout').prop('required', true);  // Disable layout select
+        $('#id_layout').prop('required', true);
     }else{
         $('#id_layout')[0].selectedIndex = 0;  // Reset to 1st option
         $('#id_layout').prop('disabled', true);  // Disable layout select

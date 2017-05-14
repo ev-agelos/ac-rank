@@ -97,13 +97,13 @@
 <script type="text/javascript" src="{% static 'js/laptimes.js' %}"></script>
 <script>
     var brand_select = document.getElementById('id_brand');
-    var circuit_select = document.getElementById('id_circuit');
+    var track_select = document.getElementById('id_track');
     brand_select.models_per_brand = JSON.parse('{{models_per_brand|safe}}');
-    circuit_select.layouts_per_circuit = JSON.parse('{{layouts_per_circuit|safe}}');
+    track_select.layouts_per_track = JSON.parse('{{layouts_per_track|safe}}');
 
     brand_select.addEventListener('click', set_models_from_brand, false);
     set_models_from_brand.call(brand_select);
-    circuit_select.addEventListener('click', set_layouts_from_circuit, false);
-    set_layouts_from_circuit.call(circuit_select);
+    track_select.addEventListener('click', set_layouts_from_track, false);
+    set_layouts_from_track.call(track_select);
 </script>
 {% endblock custom_scripts %}
