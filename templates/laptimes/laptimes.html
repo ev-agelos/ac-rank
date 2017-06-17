@@ -5,9 +5,11 @@
 <div class="row">
     <div class="col-2 pl-4 pt-5">
         <form method="GET">
+        {% for form in forms %}
             {% for html_field in form %}
             <div class="form-group row">
                 <div class="col-sm-12">
+                    {{html_field.label}}
                     <select class="custom-select" id="{{html_field.auto_id}}" name="{{html_field.name}}" {% if html_field.field.required %}required{% endif %}>
                         {% for value, choice in html_field.field.choices %}
                         <option value="{{value}}" {% if value in request.GET.values %}selected{% endif %}>{{choice}}</option>
@@ -23,6 +25,7 @@
 
             </div>
             {% endfor %}
+        {% endfor %}
             <div class="form-group row">
                 <div class="col-sm-1">
                     <button type="submit" class='btn btn-primary'>Show</button>
@@ -96,14 +99,20 @@
 {% block custom_scripts %}
 <script type="text/javascript" src="{% static 'js/laptimes.js' %}"></script>
 <script>
-    var brand_select = document.getElementById('id_brand');
-    var track_select = document.getElementById('id_track');
-    brand_select.models_per_brand = JSON.parse('{{models_per_brand|safe}}');
-    track_select.layouts_per_track = JSON.parse('{{layouts_per_track|safe}}');
+    var brand_element = document.getElementById('id_brand');
+    var model_element = document.getElementById('id_model');
+    var track_element = document.getElementById('id_track');
 
-    brand_select.addEventListener('click', set_models_from_brand, false);
-    set_models_from_brand.call(brand_select);
-    track_select.addEventListener('click', set_layouts_from_track, false);
-    set_layouts_from_track.call(track_select);
+    brand_element.models_per_brand = JSON.parse('{{models_per_brand|safe}}');
+    model_element.upgrades_per_car = JSON.parse('{{upgrades_per_car|safe}}');
+    track_element.layouts_per_track = JSON.parse('{{layouts_per_track|safe}}');
+
+    brand_element.addEventListener('click', set_brand, false);
+    model_element.addEventListener('click', set_model, false);
+    track_element.addEventListener('click', set_track, false);
+
+    set_brand.call(brand_element);
+    set_model.call(model_element);
+    set_track.call(track_element);
 </script>
 {% endblock custom_scripts %}

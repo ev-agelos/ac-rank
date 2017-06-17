@@ -17,9 +17,9 @@ class Track(models.Model):
 
     def __str__(self):
         if self.layout:
-            return self.name + ' ' + self.layout
+            return self.name.title() + ' ' + self.layout
         else:
-            return self.name
+            return self.name.title()
 
 
 class Car(models.Model):
@@ -39,7 +39,10 @@ class Car(models.Model):
                                blank=True)
 
     def __str__(self):
-        return self.brand + ' ' + self.model
+        car = self.brand.title() + ' ' + self.model.upper()
+        if self.upgrade is not None:
+            car += ' ' + self.upgrade.title()
+        return car
 
 
 class Laptime(models.Model):

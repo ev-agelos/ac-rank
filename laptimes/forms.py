@@ -3,30 +3,37 @@ from django import forms
 from .models import Car, Track
 
 
-class LaptimesForm(forms.Form):
+class TrackForm(forms.ModelForm):
 
-    brand = forms.ChoiceField(
-        choices=[('', 'Select car')] + [
-            (value, value)
-            for value in Car.objects.values_list('brand', flat=True).distinct()]
-    )
-    model = forms.ChoiceField(
-        choices=[('', 'Select model')] + [
-            (value, value)
-            for value in Car.objects.values_list('model', flat=True)]
-    )
+    class Meta:
+        model = Track
+        fields = tuple()
 
-    track = forms.ChoiceField(
-        choices=[('', 'Select track')] + [
-            (value, value)
-            for value in Track.objects.values_list('name', flat=True).distinct()]
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['track'] = forms.ModelChoiceField(
+            to_field_name='name',
+            queryset=Track.objects.values_list('name', flat=True).distinct()
+        )
+        self.fields['layout'] = forms.ModelChoiceField(
+            to_field_name='layout',
+            queryset=Track.objects.values_list('layout', flat=True).distinct()
+        )
 
-    layout = forms.TypedChoiceField(
-        required=False,
-        empty_value=None,
-        choices=[('', 'Select layout')] + [
-            (value, value)
-            for value in Track.objects.exclude(layout=None)
-            .values_list('layout', flat=True)]
-    )
+
+class CarForm(forms.ModelForm):
+
+    class Meta:
+        model = Car
+        fields = ('brand', 'model', 'upgrade')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['brand'] = forms.ModelChoiceField(
+            to_field_name='brand',
+            queryset=Car.objects.values_list('brand', flat=True).distinct()
+        )
+        self.fields['model'] = forms.ModelChoiceField(
+            to_field_name='model',
+            queryset=Car.objects.values_list('model', flat=True).distinct()
+        )
