@@ -9,6 +9,9 @@ from rest_framework import serializers
 
 class Track(models.Model):
 
+    class Meta:
+        unique_together = ('ac_name', 'layout')
+
     ac_name = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
     layout = models.CharField(max_length=50, null=True, blank=True)
@@ -25,14 +28,14 @@ class Track(models.Model):
 class Car(models.Model):
 
     upgrades = (
-        ('s1', 'Step1'),
-        ('s2', 'Step2'),
-        ('s3', 'Step3'),
+        ('s1', 'Step 1'),
+        ('s2', 'Step 2'),
+        ('s3', 'Step 3'),
         ('drift', 'Drift'),
         ('tuned', 'Tuned')
     )
 
-    ac_name = models.CharField(max_length=200)
+    ac_name = models.CharField(max_length=200, primary_key=True)
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     upgrade = models.CharField(max_length=20, choices=upgrades, null=True,
