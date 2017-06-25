@@ -103,9 +103,9 @@
     var model_element = document.getElementById('id_model');
     var track_element = document.getElementById('id_track');
 
-    brand_element.models_per_brand = JSON.parse('{{models_per_brand|safe}}');
-    model_element.upgrades_per_car = JSON.parse('{{upgrades_per_car|safe}}');
-    track_element.layouts_per_track = JSON.parse('{{layouts_per_track|safe}}');
+    brand_element.models_per_brand = JSON.parse('{{ models_per_brand|escapejs }}');
+    model_element.upgrades_per_car = JSON.parse('{{upgrades_per_car|escapejs}}');
+    track_element.layouts_per_track = JSON.parse('{{layouts_per_track|escapejs}}');
 
     brand_element.addEventListener('click', set_brand, false);
     model_element.addEventListener('click', set_model, false);
