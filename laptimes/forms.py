@@ -17,6 +17,7 @@ class TrackForm(forms.ModelForm):
         )
         self.fields['layout'] = forms.ModelChoiceField(
             to_field_name='layout',
+            required=False,
             queryset=Track.objects.values_list('layout', flat=True).distinct()
         )
 
