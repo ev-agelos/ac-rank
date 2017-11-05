@@ -35,7 +35,7 @@ class Car(models.Model):
         ('tuned', 'Tuned')
     )
 
-    ac_name = models.CharField(max_length=200, primary_key=True)
+    ac_name = models.CharField(max_length=200)
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     upgrade = models.CharField(max_length=20, choices=upgrades, null=True,
