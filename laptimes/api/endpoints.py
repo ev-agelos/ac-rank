@@ -16,7 +16,8 @@ def get(request):
         return JsonError('Only GET method is allowed.')
 
     try:
-        track = Track.objects.filter(ac_name=request.GET['track'])
+        track = Track.objects.filter(ac_name=request.GET['track'],
+                                     layout=request.GET.get('layout'))
         car = Car.objects.filter(ac_name=request.GET['car'])
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
@@ -39,13 +40,13 @@ def add(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
         splits = [int(split) for split in data['splits']]
-        track, car = data['track'], data['car']
+        track, layout, car = data['track'], data.get('layout'), data['car']
     except (json.decoder.JSONDecodeError, ValueError):
         return JsonError('Bad data.')
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
-    track = get_object_or_404(Track, ac_name=track)
+    track = get_object_or_404(Track, ac_name=track, layout=layout)
     if len(splits) != track.sectors:  # Validate splits
         return JsonError('Bad data')
     car = get_object_or_404(Car, ac_name=car)
