@@ -15,8 +15,10 @@ def laptimes(request):
     car_form = CarForm(request.GET or None)
     track_form = TrackForm(request.GET or None)
     if car_form.is_valid() and track_form.is_valid():
-        track = get_object_or_404(Track, name=track_form.cleaned_data['track'],
-                                  layout=track_form.cleaned_data['layout'])
+        track = get_object_or_404(
+            Track, name=track_form.cleaned_data['track'],
+            layout=track_form.cleaned_data['layout'] or ''
+        )
         car = get_object_or_404(Car,
                                 brand=car_form.cleaned_data['brand'],
                                 model=car_form.cleaned_data['model'],
@@ -59,7 +61,7 @@ def laptimes(request):
         upgrades_per_car[key] = list(value)
 
     layouts_per_track = dict(
-        Track.objects.exclude(layout=None).values('name')
+        Track.objects.exclude(layout='').values('name')
         .annotate(layouts=ArrayAgg('layout'))
         .values_list('name', 'layouts'))
 

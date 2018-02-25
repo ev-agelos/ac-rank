@@ -14,7 +14,7 @@ class Track(models.Model):
 
     ac_name = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
-    layout = models.CharField(max_length=50, null=True, blank=True)
+    layout = models.CharField(max_length=50, default='', blank=True)
     sectors = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)])
 
@@ -35,7 +35,7 @@ class Car(models.Model):
         ('tuned', 'Tuned')
     )
 
-    ac_name = models.CharField(max_length=200)
+    ac_name = models.CharField(max_length=200, unique=True)
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     upgrade = models.CharField(max_length=20, choices=upgrades, null=True,
