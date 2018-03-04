@@ -27,6 +27,15 @@
             <h4>Dashboard</h4>
             <p>Graphs will help you to analyze data where numbers can not be read.</p>
         </div>
+
+        <div class="col-lg-6 offset-md-6">
+            <h5>Latest laptimes</h5>
+            <ul class="list-group">
+            {% for latest_laptime in laptimes %}
+            <li class="list-group-item">{{ latest_laptime }} by {{ latest_laptime.user }} on {{ latest_laptime.track }} with {{ latest_laptime.car }}</li>
+            {% endfor %}
+        </div>
+
     </div>
 </div>
 {% endblock content %}
