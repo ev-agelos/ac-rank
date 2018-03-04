@@ -1,11 +1,7 @@
-import json
-from collections import defaultdict
-
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, get_object_or_404
-from django.contrib.postgres.aggregates.general import ArrayAgg
+from django.shortcuts import render
 
-from .models import Laptime, Car, Track
+from .models import Laptime
 from .forms import CarForm, TrackForm
 
 
@@ -15,14 +11,8 @@ def laptimes(request):
     car_form = CarForm(request.GET or None)
     track_form = TrackForm(request.GET or None)
     if car_form.is_valid() and track_form.is_valid():
-        track = get_object_or_404(
-            Track, name=track_form.cleaned_data['track'],
-            layout=track_form.cleaned_data['layout'] or ''
-        )
-        car = get_object_or_404(Car,
-                                brand=car_form.cleaned_data['brand'],
-                                model=car_form.cleaned_data['model'],
-                                upgrade=car_form.cleaned_data['upgrade'])
+        track = track_form.cleaned_data['track']
+        car = car_form.cleaned_data['car']
         laptimes = Laptime.objects.filter(track=track, car=car) \
                                   .order_by('user', 'time') \
                                   .distinct('user') \
@@ -48,27 +38,7 @@ def laptimes(request):
             # If page is out of range (e.g. 9999), deliver last page of results.
             laptimes_with_diffs = paginator.page(paginator.num_pages)
 
-    cars = Car.objects.all()
-    models_per_brand = defaultdict(set)
-    upgrades_per_car = defaultdict(set)
-    for car in cars:
-        models_per_brand[car.brand].add(car.model)
-        if car.upgrade is not None:
-            upgrades_per_car[car.brand+car.model].add(car.upgrade)
-    for key, value in models_per_brand.items():
-        models_per_brand[key] = list(value)
-    for key, value in upgrades_per_car.items():
-        upgrades_per_car[key] = list(value)
-
-    layouts_per_track = dict(
-        Track.objects.exclude(layout='').values('name')
-        .annotate(layouts=ArrayAgg('layout'))
-        .values_list('name', 'layouts'))
-
     context = dict(laptimes=laptimes_with_diffs,
                    track_sectors=range(sectors),
-                   forms=[car_form, track_form],
-                   models_per_brand=json.dumps(models_per_brand),
-                   upgrades_per_car=json.dumps(upgrades_per_car),
-                   layouts_per_track=json.dumps(layouts_per_track))
+                   forms=[car_form, track_form])
     return render(request, 'laptimes/laptimes.html', context=context)
