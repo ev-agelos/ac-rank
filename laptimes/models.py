@@ -74,11 +74,10 @@ class Laptime(models.Model):
             splits.append('{:01d}:{:06.3f}'.format(minutes, seconds))
         return splits
 
-    def diff_repr_from(self, laptime):
-        """Return the difference representation from another laptime."""
+    def __sub__(self, laptime):
+        """Return in seconds the time difference between two laptimes."""
         millis = sum(self.splits) - sum(laptime.splits)
-        seconds = millis / 1000
-        return '{:-6.3f}'.format(seconds)
+        return millis / 1000
 
     def __str__(self):
         """Return the string represantation of the object."""
