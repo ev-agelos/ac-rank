@@ -6,7 +6,7 @@ from .models import Laptime, Car, Track
 
 class LaptimeAdmin(admin.ModelAdmin):
 
-    list_display = ('id', 'user', 'splits', 'track', 'car')
+    list_display = ('id', 'user', 'time', 'track', 'car')
     list_per_page = 25
 
 
