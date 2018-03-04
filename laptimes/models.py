@@ -58,20 +58,13 @@ class Laptime(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    @staticmethod
-    def millis_to_str(millis):
-        timedelta = datetime.timedelta(milliseconds=millis)
-        minutes = timedelta.seconds // 60
-        seconds = timedelta.total_seconds() - (minutes * 60)
-        return '{:02d}:{:06.3f}'.format(minutes, seconds)
-
     def splits_to_str(self):
         splits = []
         for milliseconds in self.splits:
-            total_seconds = milliseconds / 1000
-            minutes = int(total_seconds) // 60
-            seconds = total_seconds - (minutes * 60)
-            splits.append('{:01d}:{:06.3f}'.format(minutes, seconds))
+            seconds = milliseconds/1000
+            minutes, _ = divmod(seconds, 60)
+            splits.append('{:01d}:{:06.3f}'.format(int(minutes), seconds))
+
         return splits
 
     def __sub__(self, laptime):
@@ -81,7 +74,7 @@ class Laptime(models.Model):
 
     def __str__(self):
         """Return the string represantation of the object."""
-        return self.millis_to_str(self.time)
+        return str(datetime.timedelta(milliseconds=self.time))[:-3]
 
 
 class LaptimeSerialiser(serializers.ModelSerializer):
