@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 from rest_framework import serializers
 
 
@@ -51,8 +51,9 @@ class Car(models.Model):
 class Laptime(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    splits = ArrayField(models.PositiveIntegerField())
-    time = models.PositiveIntegerField()
+    splits = ArrayField(models.PositiveIntegerField(validators=[MinValueValidator(1)]),
+                        validators=[MinLengthValidator(1)])
+    time = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     track = models.ForeignKey(Track)
     car = models.ForeignKey(Car)
 
