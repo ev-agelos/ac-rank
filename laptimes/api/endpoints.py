@@ -18,7 +18,7 @@ def get(request):
 
     try:
         track = Track.objects.filter(ac_name=request.GET['track'],
-                                     layout=request.GET.get('layout', ''))
+                                     layout=request.GET.get('layout') or '')
         car = Car.objects.filter(ac_name=request.GET['car'])
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
@@ -63,7 +63,8 @@ def add(request):
         return JsonError(msg)
 
     car = get_object_or_404(Car, ac_name=car)
-    track = get_object_or_404(Track, ac_name=track, layout=data.get('layout', ''))
+    track = get_object_or_404(Track, ac_name=track,
+                              layout=data.get('layout') or '')
     if track.sectors is not None:
         if len(splits) != track.sectors:  # Validate splits
             msg = "Bad data. Number of splits differs from track's."
