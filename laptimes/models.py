@@ -6,6 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 from rest_framework import serializers
 
+from laptimes.templatetags.laptime_extras import to_laptime
 
 class Track(models.Model):
 
@@ -62,23 +63,13 @@ class Laptime(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def splits_to_str(self):
-        splits = []
-        for milliseconds in self.splits:
-            seconds = milliseconds/1000
-            minutes, _ = divmod(seconds, 60)
-            splits.append('{:01d}:{:06.3f}'.format(int(minutes), seconds))
-
-        return splits
-
     def __sub__(self, laptime):
-        """Return in seconds the time difference between two laptimes."""
-        millis = sum(self.splits) - sum(laptime.splits)
-        return millis / 1000
+        """Return the difference in time(millis) between two laptimes."""
+        return self.time - laptime.time
 
     def __str__(self):
         """Return the string represantation of the object."""
-        return str(datetime.timedelta(milliseconds=self.time))[:-3]
+        return str(to_laptime(self.time))
 
 
 class LaptimeSerialiser(serializers.ModelSerializer):

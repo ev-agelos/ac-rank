@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load laptime_extras %}
 {% block title %}AC-Ranking{% endblock title %}
 
 {% block content %}
@@ -32,7 +33,7 @@
             <h5>Latest laptimes</h5>
             <ul class="list-group">
             {% for laptime in laptimes %}
-            <li class="list-group-item small">{{ laptime }} by {{ laptime.user }} on {{ laptime.track }} with {{ laptime.car }} {{ laptime.created_at|naturaltime }}</li>
+            <li class="list-group-item small">{{ laptime.time|to_laptime }} by {{ laptime.user }} on {{ laptime.track }} with {{ laptime.car }} {{ laptime.created_at|naturaltime }}</li>
             {% endfor %}
         </div>
 

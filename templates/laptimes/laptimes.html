@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load laptime_extras %}
 {% block title %}Laptimes ranking{% endblock title %}
 {% block content %}
 <div class="row">
@@ -57,8 +58,8 @@
                     <tr>
                         <td class="text-success font-weight-bold">{{forloop.counter}}</td>
                         <td>{{laptime.user.username}}</td>
-                        {% for split in laptime.splits_to_str %}
-                        <td class="text-warning">{{split}}</td>
+                        {% for split in laptime.splits %}
+                        <td class="text-warning">{{split|to_laptime}}</td>
                         {% endfor %}
                         <td>{{laptime}}</td>
                         <td>{% if diff_to_prev %}+{{diff_to_prev}}{% endif %}</td>

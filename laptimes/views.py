@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 
+from .templatetags.laptime_extras import to_laptime
 from .models import Laptime
 from .forms import CarForm, TrackForm
 
@@ -18,7 +19,7 @@ def laptimes(request):
         diffs = ['']  # no difference for the fastest laptime
         for index, laptime in enumerate(laptimes[1:], start=1):
             diff = laptime - laptimes[index-1]
-            diffs.append('{:-6.3f}'.format(diff))
+            diffs.append(to_laptime(diff))
 
         laptimes_with_diffs = [(l, d) for l, d in zip(laptimes, diffs)]
         paginator = Paginator(laptimes_with_diffs, 10)
