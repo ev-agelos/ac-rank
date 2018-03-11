@@ -6,12 +6,11 @@ from .forms import CarForm, TrackForm
 
 
 def laptimes(request):
-    result, sectors = [], 0
+    result = []
     car_form = CarForm(request.GET or None)
     track_form = TrackForm(request.GET or None)
     if car_form.is_valid() and track_form.is_valid():
         track = track_form.cleaned_data['track']
-        sectors = track.sectors
         car = car_form.cleaned_data['car']
         laptimes = Laptime.objects.filter(track=track, car=car) \
                                   .order_by('user', 'time') \
@@ -32,7 +31,5 @@ def laptimes(request):
             # If page is out of range (e.g. 9999), deliver last page of results.
             result = paginator.page(paginator.num_pages)
 
-    context = dict(laptimes=result,
-                   track_sectors=range(sectors),
-                   forms=[car_form, track_form])
+    context = dict(laptimes=result, forms=[car_form, track_form])
     return render(request, 'laptimes/laptimes.html', context=context)

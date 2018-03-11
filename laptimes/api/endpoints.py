@@ -62,13 +62,17 @@ def add(request):
         logger.warning(msg, exc_info=True, extra={'request': request})
         return JsonError(msg)
 
-    track = get_object_or_404(Track, ac_name=track, layout=data.get('layout', ''))
-    if len(splits) != track.sectors:  # Validate splits
-        msg = "Bad data. Number of splits differs from track's."
-        logger.warning(msg, exc_info=True, extra={'request': request})
-        return JsonError(msg)
-
     car = get_object_or_404(Car, ac_name=car)
+    track = get_object_or_404(Track, ac_name=track, layout=data.get('layout', ''))
+    if track.sectors is not None:
+        if len(splits) != track.sectors:  # Validate splits
+            msg = "Bad data. Number of splits differs from track's."
+            logger.warning(msg, exc_info=True, extra={'request': request})
+            return JsonError(msg)
+    else:
+        track.sectors = len(splits)
+        track.save()
+    
     laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
                       track=track, car=car)
     laptime.save()

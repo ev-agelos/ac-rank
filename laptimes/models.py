@@ -16,7 +16,10 @@ class Track(models.Model):
     name = models.CharField(max_length=50)
     layout = models.CharField(max_length=50, default='', blank=True)
     sectors = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)])
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
+    )
 
     def __str__(self):
         if self.layout:

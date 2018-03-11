@@ -40,9 +40,13 @@
                     <tr>
                         <th>Pos</th>
                         <th>Driver</th>
-                        {% for i in track_sectors %}
+                        {% if laptimes %}
+                            {% for split in laptimes.0.0.splits %}
                         <th>Sector {{forloop.counter}}</th>
-                        {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                        <th>Sectors</th>
+                        {% endif %}
                         <th>Lap</th>
                         <th>Diff</th>
                         <th>Date</th>
