@@ -18,7 +18,7 @@ def get(request):
 
     try:
         track = Track.objects.filter(ac_name=request.GET['track'],
-                                     layout=request.GET.get('layout'))
+                                     layout=request.GET.get('layout', ''))
         car = Car.objects.filter(ac_name=request.GET['car'])
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
@@ -41,29 +41,34 @@ def add(request):
     """Add a new laptime to the database."""
     if request.method != 'POST':
         return JsonError('Only POST method is allowed.')
+
     logger = logging.getLogger(__name__)
     try:
         data = json.loads(request.body.decode('utf-8'))
-        splits = [int(split) for split in data['splits']]
-        track, layout, car = data['track'], data.get('layout'), data['car']
     except json.decoder.JSONDecodeError:
         msg = "Bad data. Can't load track."
         logger.warning(msg, exc_info=True, extra={'request': request})
         return JsonError(msg)
+
+    try:
+        track, car = data['track'], data['car']
+    except KeyError as err:
+        return JsonError('Missing <{}> argument.'.format(err.args[0]))
+
+    try:
+        splits = [int(split) for split in data['splits']]
     except ValueError:
         msg = "Bad data. Can't cast split to integer."
         logger.warning(msg, exc_info=True, extra={'request': request})
         return JsonError(msg)
-    except KeyError as err:
-        return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
-    track = get_object_or_404(Track, ac_name=track, layout=layout)
+    track = get_object_or_404(Track, ac_name=track, layout=data.get('layout', ''))
     if len(splits) != track.sectors:  # Validate splits
         msg = "Bad data. Number of splits differs from track's."
         logger.warning(msg, exc_info=True, extra={'request': request})
         return JsonError(msg)
-    car = get_object_or_404(Car, ac_name=car)
 
+    car = get_object_or_404(Car, ac_name=car)
     laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
                       track=track, car=car)
     laptime.save()
