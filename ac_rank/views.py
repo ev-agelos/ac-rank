@@ -5,7 +5,7 @@ from laptimes.models import Laptime
 
 
 def index(request):
-    laptimes = Laptime.objects.all()[:5]
+    laptimes = Laptime.objects.order_by('-id')[:5]
     return render(request, 'index.html', context=dict(laptimes=laptimes))
 
 def drivers(request):

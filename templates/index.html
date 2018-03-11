@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
 {% block title %}AC-Ranking{% endblock title %}
 
 {% block content %}
@@ -31,8 +31,8 @@
         <div class="col-lg-6 offset-md-6">
             <h5>Latest laptimes</h5>
             <ul class="list-group">
-            {% for latest_laptime in laptimes %}
-            <li class="list-group-item">{{ latest_laptime }} by {{ latest_laptime.user }} on {{ latest_laptime.track }} with {{ latest_laptime.car }}</li>
+            {% for laptime in laptimes %}
+            <li class="list-group-item small">{{ laptime }} by {{ laptime.user }} on {{ laptime.track }} with {{ laptime.car }} {{ laptime.created_at|naturaltime }}</li>
             {% endfor %}
         </div>
 
