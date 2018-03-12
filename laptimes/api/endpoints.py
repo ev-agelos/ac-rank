@@ -4,6 +4,7 @@ import logging
 import json
 
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
 from tokenapi.decorators import token_required
 from tokenapi.http import JsonResponse, JsonError
 
@@ -73,8 +74,13 @@ def add(request):
     else:
         track.sectors = len(splits)
         track.save()
-    
+
     laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
                       track=track, car=car)
+    try:
+        laptime.full_clean()
+    except ValidationError as err:
+        return JsonError('Bad data. ' + str(err))
+
     laptime.save()
     return JsonResponse(dict(message='Lap time was saved.'))
