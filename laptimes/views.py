@@ -3,19 +3,22 @@ from django.shortcuts import render
 
 from .templatetags.laptime_extras import to_laptime
 from .models import Laptime
-from .forms import CarForm, TrackForm
+from .forms import CarForm, TrackForm, UserCarForm, UserTrackForm
 
 
-def laptimes(request):
+def _get_laptimes(request, car_form, track_form, user=None):
     result = []
-    car_form = CarForm(request.GET or None)
-    track_form = TrackForm(request.GET or None)
     if car_form.is_valid() and track_form.is_valid():
         track = track_form.cleaned_data['track']
         car = car_form.cleaned_data['car']
-        laptimes = Laptime.objects.filter(track=track, car=car) \
-                                  .order_by('user', 'time') \
-                                  .distinct('user')
+        if user is not None:
+            laptimes = Laptime.objects.filter(
+                track=track, car=car, user_id=user.id
+            ).order_by('time')
+        else:
+            laptimes = Laptime.objects.filter(
+                track=track, car=car
+            ).order_by('user', 'time').distinct('user')
         diffs = ['']  # no difference for the fastest laptime
         for index, laptime in enumerate(laptimes[1:], start=1):
             diff = laptime - laptimes[index-1]
@@ -34,3 +37,17 @@ def laptimes(request):
 
     context = dict(laptimes=result, forms=[car_form, track_form])
     return render(request, 'laptimes/laptimes.html', context=context)
+
+
+def laptimes(request):
+    """Return top laptimes."""
+    car_form = CarForm(request.GET or None)
+    track_form = TrackForm(request.GET or None)
+    return _get_laptimes(request, car_form, track_form)
+
+
+def user_laptimes(request):
+    """Return user's laptimes."""
+    car_form = UserCarForm(request.user, request.GET or None)
+    track_form = UserTrackForm(request.user, request.GET or None)
+    return _get_laptimes(request, car_form, track_form, user=request.user)
