@@ -31,7 +31,8 @@ def get(request):
         return JsonError(msg)
 
     serializer = LaptimeSerialiser(
-        Laptime.objects.filter(car=car, track=track).all(),
+        Laptime.objects.filter(car=car, track=track).order_by('user', 'time') \
+                                                    .distinct('user'),
         many=True
     )
     return JsonResponse(serializer.data, status=200)
