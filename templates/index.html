@@ -30,11 +30,13 @@
         </div>
 
         <div class="col-lg-6 offset-md-6">
+            {% if laptimes %}
             <h5>Latest laptimes</h5>
             <ul class="list-group">
             {% for laptime in laptimes %}
             <li class="list-group-item small">{{ laptime.time|to_laptime }} by {{ laptime.user }} on {{ laptime.track }} with {{ laptime.car }} {{ laptime.created_at|naturaltime }}</li>
             {% endfor %}
+            {% endif %}
         </div>
 
     </div>
