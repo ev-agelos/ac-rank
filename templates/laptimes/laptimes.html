@@ -37,10 +37,13 @@
     <div class="col-8">
         <div class="container">
             <table class='table table-hover'>
+                {% url 'user_laptimes' as user_laptimes_path %}
                 <thead>
                     <tr>
                         <th>Pos</th>
+                        {% if request.path != user_laptimes_path %}
                         <th>Driver</th>
+                        {% endif %}
                         {% if laptimes %}
                             {% for split in laptimes.0.0.splits %}
                         <th>Sector {{forloop.counter}}</th>
@@ -57,7 +60,9 @@
                     {% for laptime, diff_to_prev in laptimes %}
                     <tr>
                         <td class="text-success font-weight-bold">{{forloop.counter}}</td>
+                        {% if request.path != user_laptimes_path %}
                         <td>{{laptime.user.username}}</td>
+                        {% endif %}
                         {% for split in laptime.splits %}
                         <td class="text-warning">{{split|to_laptime}}</td>
                         {% endfor %}
