@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'anymail',
     'rest_framework',
     'laptimes',
+    'django_countries',
+    'profiles',
 ]
 
 MIDDLEWARE = [

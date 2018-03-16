@@ -16,7 +16,7 @@
             {% for user in users %}
             <tr>
                 <td>{{forloop.counter}}</td>
-                <td>{{user.username}}</td>
+                <td><img src="{{user.profile.country.flag}}"/> {{user.username}}</td>
                 <td>{{user.date_joined|date:"d-m-Y"}}</td>
             </tr>
             {% endfor %}

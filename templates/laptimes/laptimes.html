@@ -65,7 +65,7 @@
                     <tr>
                         <td class="text-success font-weight-bold">{{forloop.counter}}</td>
                         {% if request.path != user_laptimes_path %}
-                        <td>{{laptime.user.username}}</td>
+                        <td><img src="{{user.profile.country.flag}}"/> {{laptime.user.username}}</td>
                         {% endif %}
                         {% for split in laptime.splits %}
                         <td class="text-warning">{{split|to_laptime}}</td>

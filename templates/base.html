@@ -19,44 +19,54 @@
 
   <body>
     <div class="container">
-        <div class="header clearfix">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand" href="#">AC-Ranking</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">AC-Ranking</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'drivers' %}active{% endif %}" href="{% url 'drivers' %}">Drivers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'laptimes' %}active{% endif %}" href="{% url 'laptimes' %}">Rankings</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{user.username}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'user_laptimes' %}">My laptimes</a>
+                            <a class="dropdown-item" href="{% url 'profile' user.username %}">My profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'auth_logout' %}">Sign out</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary" href="{% url 'auth_login' %}">Sign in</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
 
-                <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'drivers' %}active{% endif %}" href="{% url 'drivers' %}">Drivers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'laptimes' %}active{% endif %}" href="{% url 'laptimes' %}">Rankings</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{user.username}}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'user_laptimes' %}">My laptimes</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'auth_logout' %}">Sign out</a>
-                            </div>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary" href="{% url 'auth_login' %}">Sign in</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </nav>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} text-center" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        {% endfor %}
+    {% endif %}
+
     </div>
 
     <div class="container-fluid">
