@@ -40,7 +40,11 @@
                 {% url 'user_laptimes' as user_laptimes_path %}
                 <thead>
                     <tr>
+                        {% if request.path != user_laptimes_path %}
                         <th>Pos</th>
+                        {% else %}
+                        <th>#</th>
+                        {% endif %}
                         {% if request.path != user_laptimes_path %}
                         <th>Driver</th>
                         {% endif %}
@@ -51,7 +55,7 @@
                         {% else %}
                         <th>Sectors</th>
                         {% endif %}
-                        <th>Lap</th>
+                        <th>Time</th>
                         <th>Diff</th>
                         <th>Date</th>
                     </tr>
