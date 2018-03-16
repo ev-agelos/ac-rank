@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from .templatetags.laptime_extras import to_laptime
 from .models import Laptime
@@ -46,6 +47,7 @@ def laptimes(request):
     return _get_laptimes(request, car_form, track_form)
 
 
+@login_required
 def user_laptimes(request):
     """Return user's laptimes."""
     car_form = UserCarForm(request.user, request.GET or None)
