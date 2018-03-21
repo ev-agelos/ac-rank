@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from tokenapi.decorators import token_required
 from tokenapi.http import JsonResponse, JsonError
 
-from laptimes.models import Track, Car, Laptime, LaptimeSerialiser
+from laptimes.models import Track, Car, Laptime, CarSetup, LaptimeSerialiser
 
 
 @token_required
@@ -76,8 +76,14 @@ def add(request):
         track.sectors = len(splits)
         track.save()
 
+    car_setup = data.get('car_setup')
+    if car_setup is not None:
+        car_setup, created = CarSetup.objects.get_or_create(
+            **data['car_setup']
+        )
+
     laptime = Laptime(splits=splits, time=sum(splits), user=request.user,
-                      track=track, car=car)
+                      track=track, car=car, car_setup=car_setup)
     try:
         laptime.full_clean()
     except ValidationError as err:

@@ -36,7 +36,7 @@
     </div>
     <div class="col-8">
         <div class="container">
-            <table class='table table-hover'>
+            <table class='table table-hover table-sm'>
                 {% url 'user_laptimes' as user_laptimes_path %}
                 <thead>
                     <tr>
@@ -58,6 +58,9 @@
                         <th>Time</th>
                         <th>Diff</th>
                         <th>Date</th>
+                        {% if user.is_authenticated and request.path == user_laptimes_path %}
+                        <th></th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +76,13 @@
                         <td>{{laptime}}</td>
                         <td>{% if diff_to_prev %}+{{diff_to_prev}}{% endif %}</td>
                         <td>{{laptime.created_at|date:'d-m-Y'}}</td>
+                        {% if user.is_authenticated and request.path == user_laptimes_path %}
+                        <td>
+                            {% if laptime.car_setup %}
+                            <a class="btn btn-success btn-sm" href="{% url 'download_setup' laptime.car_setup.id %}" role="button"><i class="fa fa-download" aria-hidden="true"></i> setup</a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

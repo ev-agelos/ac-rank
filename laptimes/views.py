@@ -1,9 +1,14 @@
+import io
+from configparser import ConfigParser
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
 
 from .templatetags.laptime_extras import to_laptime
-from .models import Laptime
+from .models import Laptime, CarSetup
 from .forms import CarForm, TrackForm, UserCarForm, UserTrackForm
 
 
@@ -53,3 +58,28 @@ def user_laptimes(request):
     car_form = UserCarForm(request.user, request.GET or None)
     track_form = UserTrackForm(request.user, request.GET or None)
     return _get_laptimes(request, car_form, track_form, user=request.user)
+
+
+@login_required
+def download_setup(request, setup_id):
+    setup = CarSetup.objects.get(pk=setup_id)
+
+    config = ConfigParser()
+    config.optionxform = str
+    for field in setup._meta.get_fields():
+        if field.name not in ('id', 'laptime'):
+            config[field.name.upper()] = {'VALUE': getattr(setup, field.name)}
+    config['CAR'] = {'MODEL': setup.car.ac_name}
+
+    fob = io.StringIO()
+    config.write(fob)
+    fob.seek(0)
+    data = fob.read()
+    fob.close()
+
+    setup_file = ContentFile(data)
+    response = HttpResponse(setup_file, 'text/plain')
+    response['Content-Length'] = setup_file.size
+    response['Content-Disposition'] = 'attachment; filename=""'
+
+    return response

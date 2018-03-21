@@ -8,6 +8,7 @@ from rest_framework import serializers
 
 from laptimes.templatetags.laptime_extras import to_laptime
 
+
 class Track(models.Model):
 
     class Meta:
@@ -52,6 +53,74 @@ class Car(models.Model):
         return car
 
 
+class CarSetup(models.Model):
+
+    car = models.ForeignKey(Car)
+    track = models.ForeignKey(Track)
+
+    internal_gear_2 = models.SmallIntegerField(null=True)
+    internal_gear_3 = models.SmallIntegerField(null=True)
+    internal_gear_4 = models.SmallIntegerField(null=True)
+    internal_gear_5 = models.SmallIntegerField(null=True)
+    internal_gear_6 = models.SmallIntegerField(null=True)
+    internal_gear_7 = models.SmallIntegerField(null=True)
+    final_ratio = models.SmallIntegerField(null=True)
+    tyres = models.SmallIntegerField(null=True)
+    pressure_lf = models.SmallIntegerField(null=True)
+    pressure_rf = models.SmallIntegerField(null=True)
+    pressure_lr = models.SmallIntegerField(null=True)
+    pressure_rr = models.SmallIntegerField(null=True)
+    fuel = models.SmallIntegerField(null=True)
+    arb_front = models.SmallIntegerField(null=True)
+    arb_rear = models.SmallIntegerField(null=True)
+    spring_rate_lf = models.SmallIntegerField(null=True)
+    rod_length_lf = models.SmallIntegerField(null=True)
+    spring_rate_rf = models.SmallIntegerField(null=True)
+    rod_length_rf = models.SmallIntegerField(null=True)
+    spring_rate_lr = models.SmallIntegerField(null=True)
+    rod_length_lr = models.SmallIntegerField(null=True)
+    spring_rate_rr = models.SmallIntegerField(null=True)
+    rod_length_rr = models.SmallIntegerField(null=True)
+    wing_1 = models.SmallIntegerField(null=True)
+    wing_2 = models.SmallIntegerField(null=True)
+    camber_lf = models.SmallIntegerField(null=True)
+    toe_out_lf = models.SmallIntegerField(null=True)
+    camber_rf = models.SmallIntegerField(null=True)
+    toe_out_rf = models.SmallIntegerField(null=True)
+    camber_lr = models.SmallIntegerField(null=True)
+    toe_out_lr = models.SmallIntegerField(null=True)
+    camber_rr = models.SmallIntegerField(null=True)
+    toe_out_rr = models.SmallIntegerField(null=True)
+    damp_fast_bump_lf = models.SmallIntegerField(null=True)
+    damp_bump_lf = models.SmallIntegerField(null=True)
+    damp_fast_rebound_lf = models.SmallIntegerField(null=True)
+    damp_rebound_lf = models.SmallIntegerField(null=True)
+    damp_fast_bump_rf = models.SmallIntegerField(null=True)
+    damp_bump_rf = models.SmallIntegerField(null=True)
+    damp_fast_rebound_rf = models.SmallIntegerField(null=True)
+    damp_rebound_rf = models.SmallIntegerField(null=True)
+    damp_fast_bump_lr = models.SmallIntegerField(null=True)
+    damp_bump_lr = models.SmallIntegerField(null=True)
+    damp_fast_rebound_lr = models.SmallIntegerField(null=True)
+    damp_rebound_lr = models.SmallIntegerField(null=True)
+    damp_fast_bump_rr = models.SmallIntegerField(null=True)
+    damp_bump_rr = models.SmallIntegerField(null=True)
+    damp_fast_rebound_rr = models.SmallIntegerField(null=True)
+    damp_rebound_rr = models.SmallIntegerField(null=True)
+    diff_power = models.SmallIntegerField(null=True)
+    diff_coast = models.SmallIntegerField(null=True)
+    front_bias = models.SmallIntegerField(null=True)
+    engine_limiter = models.SmallIntegerField(null=True)
+    bump_stop_rate_lf = models.SmallIntegerField(null=True)
+    packer_range_lf = models.SmallIntegerField(null=True)
+    bump_stop_rate_rf = models.SmallIntegerField(null=True)
+    packer_range_rf = models.SmallIntegerField(null=True)
+    bump_stop_rate_lr = models.SmallIntegerField(null=True)
+    packer_range_lr = models.SmallIntegerField(null=True)
+    bump_stop_rate_rr = models.SmallIntegerField(null=True)
+    packer_range_rr = models.SmallIntegerField(null=True)
+
+
 class Laptime(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -60,6 +129,7 @@ class Laptime(models.Model):
     time = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     track = models.ForeignKey(Track)
     car = models.ForeignKey(Car)
+    car_setup = models.ForeignKey(CarSetup, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
