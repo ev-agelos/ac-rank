@@ -5,6 +5,7 @@ django-tokenapi
 django-countries
 psycopg2==2.7.1
 gunicorn==19.6.0
-django-anymail==0.9
+django-anymail
+sparkpost
 raven==6.0.0
 djangorestframework==3.6.2

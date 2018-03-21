@@ -136,12 +136,8 @@ ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, us
 LOGIN_REDIRECT_URL = '/laptimes'
 
 
-ANYMAIL = {
-    "MAILGUN_API_KEY": "...",
-    "MAILGUN_SENDER_DOMAIN": '...',
-}
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-DEFAULT_FROM_EMAIL = "AC-Rank@mg.pybook.site"
+EMAIL_BACKEND = "anymail.backends.sparkpost.EmailBackend"
+DEFAULT_FROM_EMAIL = "AC-Rank@mail.evagelos.xyz"
 
 LOGGING = {
     'version': 1,
