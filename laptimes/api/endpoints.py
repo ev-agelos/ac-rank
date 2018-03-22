@@ -79,6 +79,8 @@ def add(request):
     car_setup = data.get('car_setup')
     if car_setup is not None:
         car_setup, created = CarSetup.objects.get_or_create(
+            car=car,
+            track=track,
             **data['car_setup']
         )
 
