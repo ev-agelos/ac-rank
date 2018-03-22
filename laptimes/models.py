@@ -58,6 +58,8 @@ class CarSetup(models.Model):
     car = models.ForeignKey(Car)
     track = models.ForeignKey(Track)
 
+    abs = models.SmallIntegerField(null=True)
+    brake_power_mult = models.SmallIntegerField(null=True)
     internal_gear_2 = models.SmallIntegerField(null=True)
     internal_gear_3 = models.SmallIntegerField(null=True)
     internal_gear_4 = models.SmallIntegerField(null=True)
@@ -119,6 +121,7 @@ class CarSetup(models.Model):
     packer_range_lr = models.SmallIntegerField(null=True)
     bump_stop_rate_rr = models.SmallIntegerField(null=True)
     packer_range_rr = models.SmallIntegerField(null=True)
+    traction_control = models.SmallIntegerField(null=True)
 
 
 class Laptime(models.Model):
@@ -129,7 +132,7 @@ class Laptime(models.Model):
     time = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     track = models.ForeignKey(Track)
     car = models.ForeignKey(Car)
-    car_setup = models.ForeignKey(CarSetup, null=True)
+    car_setup = models.ForeignKey(CarSetup, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
