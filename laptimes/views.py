@@ -68,7 +68,7 @@ def download_setup(request, setup_id):
     config.optionxform = str
     for field in setup._meta.get_fields():
         if field.name not in ('id', 'laptime'):
-            config[field.name.upper()] = {'VALUE': getattr(setup, field.name)}
+            config[field.name.upper()] = {'VALUE': str(getattr(setup, field.name))}
     config['CAR'] = {'MODEL': setup.car.ac_name}
 
     fob = io.StringIO()
