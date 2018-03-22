@@ -7,5 +7,5 @@ psycopg2==2.7.1
 gunicorn==19.6.0
 django-anymail
 sparkpost
-raven==6.0.0
+raven
 djangorestframework==3.6.2
