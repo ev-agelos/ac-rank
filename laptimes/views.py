@@ -71,15 +71,16 @@ def download_setup(request, setup_id):
             config[field.name.upper()] = {'VALUE': str(getattr(setup, field.name))}
     config['CAR'] = {'MODEL': setup.car.ac_name}
 
-    fob = io.StringIO()
+    fob = io.StringIO(newline='\r\n')
     config.write(fob)
     fob.seek(0)
     data = fob.read()
     fob.close()
 
-    setup_file = ContentFile(data)
+    name = 'setup__{}__{}.ini'.format(setup.car.ac_name, setup.track.ac_name)
+    setup_file = ContentFile(data, name=name)
     response = HttpResponse(setup_file, 'text/plain')
     response['Content-Length'] = setup_file.size
-    response['Content-Disposition'] = 'attachment; filename=""'
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(name)
 
     return response
