@@ -57,7 +57,7 @@ def download_setup(request, setup_id):
     config = ConfigParser()
     config.optionxform = str
     for field in setup._meta.get_fields():
-        if field.name not in ('id', 'laptime'):
+        if field.name not in ('id', 'laptime', 'car', 'track'):
             value = getattr(setup, field.name, None)
             if value is not None:
                 config[field.name.upper()] = {'VALUE': str(value)}
