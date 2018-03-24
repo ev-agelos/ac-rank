@@ -13,7 +13,8 @@ class TrackForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['track'] = forms.ModelChoiceField(
             to_field_name='id',
-            queryset=Track.objects.all()
+            queryset=Track.objects.all(),
+            widget=forms.Select(attrs={'class':'custom-select'})
         )
 
 
@@ -27,7 +28,8 @@ class CarForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['car'] = forms.ModelChoiceField(
             to_field_name='id',
-            queryset=Car.objects.all()
+            queryset=Car.objects.all(),
+            widget=forms.Select(attrs={'class':'custom-select'})
         )
 
 
@@ -42,7 +44,8 @@ class UserTrackForm(forms.ModelForm):
         user_track_ids = Laptime.objects.filter(user=user).values_list('track_id', flat=True)
         self.fields['track'] = forms.ModelChoiceField(
             to_field_name='id',
-            queryset=Track.objects.filter(id__in=user_track_ids)
+            queryset=Track.objects.filter(id__in=user_track_ids),
+            widget=forms.Select(attrs={'class':'custom-select'})
         )
 
 
@@ -57,5 +60,6 @@ class UserCarForm(forms.ModelForm):
         user_car_ids = Laptime.objects.filter(user=user).values_list('car_id', flat=True)
         self.fields['car'] = forms.ModelChoiceField(
             to_field_name='id',
-            queryset=Car.objects.filter(id__in=user_car_ids)
+            queryset=Car.objects.filter(id__in=user_car_ids),
+            widget=forms.Select(attrs={'class':'custom-select'})
         )

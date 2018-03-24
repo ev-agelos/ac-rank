@@ -6,27 +6,9 @@
 <div class="row">
     <div class="col-2 pl-4 pt-5">
         <form method="GET">
-        {% for form in forms %}
-            {% for html_field in form %}
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    {{html_field.label}}
-                    <select class="custom-select" id="{{html_field.auto_id}}" name="{{html_field.name}}" {% if html_field.field.required %}required{% endif %}>
-                        {% for value, choice in html_field.field.choices %}
-                        <option value="{{value}}" {% if value in request.GET.values %}selected{% endif %}>{{choice}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                {% for msg in html_field.errors %}
-                <div class="form-group has-danger">
-                    <div class="form-control-feedback">{{msg}}</div>
-                </div>
-                {% endfor %}
-
-            </div>
+            {% for form in forms %}
+            {{form.as_p}}
             {% endfor %}
-        {% endfor %}
             <div class="form-group row">
                 <div class="col-sm-1">
                     <button type="submit" class='btn btn-primary'>Show</button>
