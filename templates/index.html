@@ -34,7 +34,7 @@
             <h5>Latest laptimes</h5>
             <ul class="list-group">
             {% for laptime in laptimes %}
-            <li class="list-group-item small">{{ laptime.time|to_laptime }} by {{ laptime.user }} on {{ laptime.track }} with {{ laptime.car }} {{ laptime.created_at|naturaltime }}</li>
+            <li class="list-group-item small">{{ laptime.time|to_laptime }} by {{ laptime.user }} on <a href="{% url 'laptimes' %}?car={{laptime.car.id}}&track={{laptime.track.id}}">{{ laptime.track }} with {{ laptime.car }}</a> {{ laptime.created_at|naturaltime }}</li>
             {% endfor %}
             {% endif %}
         </div>
