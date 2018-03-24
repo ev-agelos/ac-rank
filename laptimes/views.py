@@ -1,7 +1,6 @@
 import io
 from configparser import ConfigParser
 
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -13,7 +12,7 @@ from .forms import CarForm, TrackForm, UserCarForm, UserTrackForm
 
 
 def _get_laptimes(request, car_form, track_form, user=None):
-    result = []
+    laptimes_with_diffs = []
     if car_form.is_valid() and track_form.is_valid():
         track = track_form.cleaned_data['track']
         car = car_form.cleaned_data['car']
@@ -31,17 +30,8 @@ def _get_laptimes(request, car_form, track_form, user=None):
             diffs.append(to_laptime(diff))
 
         laptimes_with_diffs = [(l, d) for l, d in zip(laptimes, diffs)]
-        paginator = Paginator(laptimes_with_diffs, 10)
-        try:
-            result = paginator.page(request.GET.get('page'))
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            result = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            result = paginator.page(paginator.num_pages)
 
-    context = dict(laptimes=result, forms=[car_form, track_form])
+    context = dict(laptimes=laptimes_with_diffs, forms=[car_form, track_form])
     return render(request, 'laptimes/laptimes.html', context=context)
 
 

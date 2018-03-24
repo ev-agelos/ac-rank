@@ -2,8 +2,11 @@
 {% load staticfiles %}
 {% load humanize %}
 {% load laptime_extras %}
+
 {% block title %}Laptimes ranking{% endblock title %}
+
 {% block content %}
+<br>
 <div class="row">
     <div class="col-2 pl-4 pt-5">
         <form method="GET">
@@ -19,28 +22,28 @@
     </div>
     <div class="col-8">
         <div class="container">
-            <table class='table table-hover table-sm'>
-                {% url 'user_laptimes' as user_laptimes_path %}
+            {% url 'user_laptimes' as user_laptimes_path %}
+            <table class="table table-hover table-sm table-bordered" id="laptimes" style="width:100%">
                 <thead>
                     <tr>
                         {% if request.path != user_laptimes_path %}
-                        <th>Pos</th>
+                        <th style="border-bottom:none; border-top:none">Pos</th>
                         {% endif %}
                         {% if request.path != user_laptimes_path %}
-                        <th>Driver</th>
+                        <th style="border-bottom:none; border-top:none">Driver</th>
                         {% endif %}
                         {% if laptimes %}
                             {% for split in laptimes.0.0.splits %}
-                        <th>Sector {{forloop.counter}}</th>
+                        <th style="border-bottom:none; border-top:none">Sector {{forloop.counter}}</th>
                             {% endfor %}
                         {% else %}
-                        <th>Sectors</th>
+                        <th style="border-bottom:none; border-top:none">Sectors</th>
                         {% endif %}
-                        <th>Time</th>
-                        <th>Diff</th>
-                        <th>Date</th>
+                        <th style="border-bottom:none; border-top:none">Time</th>
+                        <th style="border-bottom:none; border-top:none">Diff</th>
+                        <th style="border-bottom:none; border-top:none">Date</th>
                         {% if user.is_authenticated and request.path == user_laptimes_path %}
-                        <th></th>
+                        <th style="border-bottom:none; border-top:none"></th>
                         {% endif %}
                     </tr>
                 </thead>
@@ -48,7 +51,7 @@
                     {% for laptime, diff_to_prev in laptimes %}
                     <tr>
                         {% if request.path != user_laptimes_path %}
-                        <td class="text-success font-weight-bold">{{forloop.counter0|add:laptimes.start_index|ordinal}}</td>
+                        <td class="text-success font-weight-bold">{{forloop.counter|ordinal}}</td>
                         {% endif %}
                         {% if request.path != user_laptimes_path %}
                         <td><img src="{{user.profile.country.flag}}"/> {{laptime.user.username}}</td>
@@ -70,35 +73,32 @@
                     {% endfor %}
                 </tbody>
             </table>
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    {% if laptimes.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?car={{request.GET.car}}&track={{request.GET.track}}&page={{laptimes.previous_page_number}}">Previous</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Previous</a>
-                    </li>
-                    {% endif %}
-
-                    <li class="page-item active">
-                        <a class="page-link" href="#">{{laptimes.number|default:"1"}}</a>
-                    </li>
-
-                    {% if laptimes.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?car={{request.GET.car}}&track={{request.GET.track}}&page={{laptimes.next_page_number}}">Next</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
 {% endblock content %}
+
+{% block custom_scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
+<script type="text/javascript">
+    {% url 'user_laptimes' as user_laptimes_path %}
+    $(document).ready(function() {
+        $('#laptimes').DataTable({
+            "info": false,
+            "language": {"emptyTable": "No laptimes available"},
+            {% if laptimes and request.path == user_laptimes_path %}
+            "order": [[ 3, "asc" ]],
+            "columnDefs": [{"targets": 4, "orderable": false},
+                           {"targets": 6, "orderable": false}],
+            {% elif laptimes and request.path != user_laptimes_path %}
+            "order": [[ 4, "asc" ]],
+            "columnDefs": [{"targets": 0, "orderable": false},
+                           {"targets": 6, "orderable": false}],
+            {% else %}
+            "ordering": false,
+            {% endif %}
+        });
+    });
+</script>
+
+{% endblock custom_scripts %}
