@@ -7,4 +7,5 @@ from . import endpoints
 urlpatterns = [
     url(r'^add$', endpoints.add, name='add-laptimes'),
     url(r'^get$', endpoints.get, name='get-laptimes'),
+    url(r'^add-setup$', endpoints.add_setup, name='add-setup'),
 ]

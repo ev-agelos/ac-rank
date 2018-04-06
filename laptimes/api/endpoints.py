@@ -93,3 +93,39 @@ def add(request):
 
     laptime.save()
     return JsonResponse(dict(message='Lap time was saved.'))
+
+
+@token_required
+def add_setup(request):
+    """Add a new setup to an existing laptime."""
+    if request.method != 'POST':
+        return JsonError('Only POST method is allowed.')
+    logger = logging.getLogger(__name__)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.decoder.JSONDecodeError:
+        msg = "Bad data. Can't load setup."
+        logger.warning(msg, exc_info=True, extra={'request': request})
+        return JsonError(msg)
+
+    try:
+        setup, laptime_id = data['car_setup'], data['laptime_id']
+    except KeyError as err:
+        return JsonError('Missing <{}> argument.'.format(err.args[0]))
+
+    try:
+        laptime = Laptime.objects.get(pk=laptime_id)
+    except Laptime.DoesNotExist:
+        return JsonError('Laptime not found')
+
+    if laptime.car_setup is not None:
+        return JsonError('Setup already exists for the laptime.')
+
+    car_setup, created = CarSetup.objects.get_or_create(
+        car=laptime.car,
+        track=laptime.track,
+        **setup
+    )
+    laptime.car_setup = car_setup
+    laptime.save()
+    return JsonResponse(dict(message='Setup was saved for the laptime.'))
