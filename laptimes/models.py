@@ -59,8 +59,8 @@ class Setup(models.Model):
     track = models.ForeignKey(Track)
 
     abs = models.SmallIntegerField(null=True)
-    arb_front = models.SmallIntegerField(null=True)
-    arb_rear = models.SmallIntegerField(null=True)
+    arb_front = models.IntegerField(null=True)
+    arb_rear = models.IntegerField(null=True)
     brake_power_mult = models.SmallIntegerField(null=True)
     bump_stop_rate_lf = models.SmallIntegerField(null=True)
     bump_stop_rate_lr = models.SmallIntegerField(null=True)
