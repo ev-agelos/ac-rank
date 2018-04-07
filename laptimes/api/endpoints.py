@@ -48,7 +48,7 @@ def add(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
     except json.decoder.JSONDecodeError:
-        msg = "Bad data. Can't load track."
+        msg = "Bad data. Can't load parameters."
         logger.warning(msg, exc_info=True, extra={'request': request})
         return JsonError(msg)
 
@@ -104,7 +104,7 @@ def add_setup(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
     except json.decoder.JSONDecodeError:
-        msg = "Bad data. Can't load setup."
+        msg = "Bad data. Can't load parameters."
         logger.warning(msg, exc_info=True, extra={'request': request})
         return JsonError(msg)
 
