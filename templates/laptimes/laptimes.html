@@ -23,7 +23,7 @@
     <div class="col-8">
         <div class="container">
             {% url 'user_laptimes' as user_laptimes_path %}
-            <table class="table table-hover table-sm table-bordered" id="laptimes" style="width:100%">
+            <table class="table table-hover table-sm table-bordered" cellspacing="0" id="laptimes" style="width:100%">
                 <thead>
                     <tr>
                         {% if request.path != user_laptimes_path %}
@@ -63,7 +63,7 @@
                         <td>{% if diff_to_prev %}+{{diff_to_prev}}{% endif %}</td>
                         <td>{{laptime.created_at|date:'d M Y - H:i:s'}}</td>
                         {% if user.is_authenticated and request.path == user_laptimes_path %}
-                        <td>
+                        <td style="text-align: center">
                             {% if laptime.car_setup %}
                             <a class="btn btn-success btn-sm" href="{% url 'download_setup' laptime.car_setup.id %}" role="button"><i class="fa fa-download" aria-hidden="true"></i> setup</a>
                             {% endif %}
