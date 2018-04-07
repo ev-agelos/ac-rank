@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 
 from .templatetags.laptime_extras import to_laptime
-from .models import Laptime, CarSetup
+from .models import Laptime, Setup
 from .forms import CarForm, TrackForm, UserCarForm, UserTrackForm
 
 
@@ -52,7 +52,7 @@ def user_laptimes(request):
 
 @login_required
 def download_setup(request, setup_id):
-    setup = CarSetup.objects.get(pk=setup_id)
+    setup = Setup.objects.get(pk=setup_id)
 
     config = ConfigParser()
     config.optionxform = str

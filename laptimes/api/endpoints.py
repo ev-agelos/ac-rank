@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from tokenapi.decorators import token_required
 from tokenapi.http import JsonResponse, JsonError
 
-from laptimes.models import Track, Car, Laptime, CarSetup, LaptimeSerialiser
+from laptimes.models import Track, Car, Laptime, Setup, LaptimeSerialiser
 
 
 @token_required
@@ -78,7 +78,7 @@ def add(request):
 
     car_setup = data.get('car_setup')
     if car_setup is not None:
-        car_setup, created = CarSetup.objects.get_or_create(
+        car_setup, created = Setup.objects.get_or_create(
             car=car,
             track=track,
             **data['car_setup']
@@ -121,7 +121,7 @@ def add_setup(request):
     if laptime.car_setup is not None:
         return JsonError('Setup already exists for the laptime.')
 
-    car_setup, created = CarSetup.objects.get_or_create(
+    car_setup, created = Setup.objects.get_or_create(
         car=laptime.car,
         track=laptime.track,
         **setup

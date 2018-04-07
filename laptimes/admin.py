@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Laptime, Car, Track, CarSetup
+from .models import Laptime, Car, Track, Setup
 # Register your models here.
 
 
@@ -16,7 +16,7 @@ class CarAdmin(admin.ModelAdmin):
     list_per_page = 25
 
 
-class CarSetupAdmin(admin.ModelAdmin):
+class SetupAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'car', 'track')
     list_per_page = 25
@@ -30,5 +30,5 @@ class TrackAdmin(admin.ModelAdmin):
 
 admin.site.register(Laptime, LaptimeAdmin)
 admin.site.register(Car, CarAdmin)
-admin.site.register(CarSetup, CarSetupAdmin)
+admin.site.register(Setup, SetupAdmin)
 admin.site.register(Track, TrackAdmin)
