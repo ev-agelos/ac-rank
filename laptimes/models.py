@@ -132,7 +132,8 @@ class Laptime(models.Model):
     time = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     track = models.ForeignKey(Track)
     car = models.ForeignKey(Car)
-    car_setup = models.ForeignKey(CarSetup, null=True, blank=True)
+    car_setup = models.ForeignKey(CarSetup, null=True, blank=True,
+                                  on_delete=models.SET_NULL)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
