@@ -123,6 +123,22 @@ class Setup(models.Model):
     wing_1 = models.SmallIntegerField(null=True)
     wing_2 = models.SmallIntegerField(null=True)
 
+    # cars that have one suspension
+    # half front
+    damp_bump_hf = models.SmallIntegerField(null=True)
+    damp_fast_bump_hf = models.SmallIntegerField(null=True)
+    damp_fast_rebound_hf = models.SmallIntegerField(null=True)
+    damp_rebound_hf = models.SmallIntegerField(null=True)
+    rod_length_hf = models.SmallIntegerField(null=True)
+    spring_rate_hf = models.SmallIntegerField(null=True)
+    # half rear
+    damp_bump_hr = models.SmallIntegerField(null=True)
+    damp_fast_bump_hr = models.SmallIntegerField(null=True)
+    damp_fast_rebound_hr = models.SmallIntegerField(null=True)
+    damp_rebound_hr = models.SmallIntegerField(null=True)
+    rod_length_hr = models.SmallIntegerField(null=True)
+    spring_rate_hr = models.SmallIntegerField(null=True)
+
 
 class Laptime(models.Model):
 
