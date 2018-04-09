@@ -92,7 +92,10 @@ def add(request):
         return JsonError('Bad data. ' + str(err))
 
     laptime.save()
-    return JsonResponse(dict(message='Lap time was saved.'))
+    return JsonResponse(dict(
+        message='Lap time was saved.',
+        laptime_id=laptime.id
+    ))
 
 
 @token_required
