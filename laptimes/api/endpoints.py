@@ -27,7 +27,7 @@ def get(request):
     if track.count() == 0 or car.count() == 0:
         msg = 'Track and/or car were not found.'
         logger = logging.getLogger(__name__)
-        logger.warning(msg, exc_info=True, extra={'request': request})
+        logger.warning(msg, extra={'request': request, 'stack': True})
         return JsonError(msg)
 
     serializer = LaptimeSerialiser(
@@ -49,7 +49,8 @@ def add(request):
         data = json.loads(request.body.decode('utf-8'))
     except json.decoder.JSONDecodeError:
         msg = "Bad data. Can't load parameters."
-        logger.warning(msg, exc_info=True, extra={'request': request})
+        logger.warning(msg, exc_info=True,
+                       extra={'request': request, 'stack': True})
         return JsonError(msg)
 
     try:
@@ -61,7 +62,8 @@ def add(request):
         splits = [int(split) for split in splits]
     except ValueError:
         msg = "Bad data. Can't cast split to integer."
-        logger.warning(msg, exc_info=True, extra={'request': request})
+        logger.warning(msg, exc_info=True,
+                       extra={'request': request, 'stack': True})
         return JsonError(msg)
 
     car = get_object_or_404(Car, ac_name=car)
@@ -70,7 +72,7 @@ def add(request):
     if track.sectors is not None:
         if len(splits) != track.sectors:  # Validate splits
             msg = "Bad data. Number of splits differs from track's."
-            logger.warning(msg, exc_info=True, extra={'request': request})
+            logger.warning(msg, extra={'request': request, 'stack': True})
             return JsonError(msg)
     else:
         track.sectors = len(splits)
@@ -108,7 +110,8 @@ def add_setup(request):
         data = json.loads(request.body.decode('utf-8'))
     except json.decoder.JSONDecodeError:
         msg = "Bad data. Can't load parameters."
-        logger.warning(msg, exc_info=True, extra={'request': request})
+        logger.warning(msg, exc_info=True,
+                       extra={'request': request, 'stack': True})
         return JsonError(msg)
 
     try:
