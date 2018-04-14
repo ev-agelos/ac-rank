@@ -24,7 +24,7 @@ def get(request):
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
-    if track is None or car is None:
+    if track.count() == 0 or car.count() == 0:
         msg = 'Track and/or car were not found.'
         logger = logging.getLogger(__name__)
         logger.warning(msg, exc_info=True, extra={'request': request})
@@ -53,12 +53,12 @@ def add(request):
         return JsonError(msg)
 
     try:
-        track, car = data['track'], data['car']
+        track, car, splits = data['track'], data['car'], data['splits']
     except KeyError as err:
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
     try:
-        splits = [int(split) for split in data['splits']]
+        splits = [int(split) for split in splits]
     except ValueError:
         msg = "Bad data. Can't cast split to integer."
         logger.warning(msg, exc_info=True, extra={'request': request})
