@@ -137,7 +137,6 @@ LOGIN_REDIRECT_URL = '/laptimes'
 
 
 EMAIL_BACKEND = "anymail.backends.sparkpost.EmailBackend"
-DEFAULT_FROM_EMAIL = "AC-Rank@mail.evagelos.xyz"
 
 LOGGING = {
     'version': 1,
