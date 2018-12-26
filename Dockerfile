@@ -15,8 +15,8 @@ RUN apk add --update postgresql-dev gcc python3-dev musl-dev && \
 RUN mkdir -p /var/www/ac-rank/static/
 
 ADD . /ac_rank
-WORKDIR /ac_rank
-COPY ./docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x /ac_rank/docker-entrypoint.sh
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+WORKDIR /ac_rank
+
+ENTRYPOINT ["/ac_rank/docker-entrypoint.sh"]
