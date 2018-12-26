@@ -26,6 +26,6 @@ deploy_image:
   - ssh $SERVER './deploy_ac_rank.sh' gitlab-ci-token $CI_BUILD_TOKEN
   environment:
     name: production
-    url: https://rank.evagelos.xyz
+    url: $WEBSITE_URL
   only:
   - master
