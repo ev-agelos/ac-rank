@@ -1,5 +1,7 @@
 from .common import *
 
+
+SECRET_KEY = 'really_secret_key'
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS.append('debug_toolbar')
