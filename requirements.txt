@@ -3,7 +3,7 @@ django-debug-toolbar
 django-registration-redux==1.6
 django-tokenapi
 django-countries
-psycopg2==2.7.1
+psycopg2==2.7.6.1
 gunicorn==19.6.0
 django-anymail
 sparkpost
