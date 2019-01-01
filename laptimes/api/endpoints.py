@@ -3,7 +3,6 @@
 import logging
 import json
 
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from tokenapi.decorators import token_required
 from tokenapi.http import JsonResponse, JsonError
@@ -66,9 +65,17 @@ def add(request):
                        extra={'request': request, 'stack': True})
         return JsonError(msg)
 
-    car = get_object_or_404(Car, ac_name=car)
-    track = get_object_or_404(Track, ac_name=track,
-                              layout=data.get('layout') or '')
+    try:
+        car = Car.objects.get(ac_name=car)
+    except Car.DoesNotExist:
+        car = Car(ac_name=car)
+        car.save()
+    try:
+        track = Track.objects.get(ac_name=track,
+                                  layout=data.get('layout') or '')
+    except Track.DoesNotExist:
+        track = Track(ac_name=track, layout=data.get('layout') or '')
+
     if track.sectors is not None:
         if len(splits) != track.sectors:  # Validate splits
             msg = "Bad data. Number of splits differs from track's."
@@ -76,7 +83,7 @@ def add(request):
             return JsonError(msg)
     else:
         track.sectors = len(splits)
-        track.save()
+    track.save()
 
     car_setup = data.get('car_setup')
     if car_setup is not None:
