@@ -4,7 +4,7 @@ FROM python:3.5-alpine
 # To fix this we just create /etc/nsswitch.conf and add the following line:
 ONBUILD RUN echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
 
-COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements/production.txt /tmp/requirements.txt
 
 RUN apk add --update postgresql-dev gcc python3-dev musl-dev && \
     rm /var/cache/apk/* && \
