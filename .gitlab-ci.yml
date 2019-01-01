@@ -1,6 +1,19 @@
 stages:
+- test
 - build
 - deploy
+
+services:
+  - postgres:9.5
+  - docker:dind
+
+test app:
+  stage: test
+  image: python:3.5-alpine
+  before_script:
+  - python -m pip install -r requirements/development.txt
+  script:
+  - python -m pytest
 
 build_image:
   stage: build
