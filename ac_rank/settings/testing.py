@@ -7,7 +7,7 @@ STATICFILES_DIRS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'NAME': 'testing_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres'

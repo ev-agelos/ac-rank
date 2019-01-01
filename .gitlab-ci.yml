@@ -1,6 +1,26 @@
 stages:
+- test
 - build
 - deploy
+
+services:
+  - postgres:9.5
+  - docker:dind
+
+variables:
+  POSTGRES_DB: testing_db
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+test app:
+  stage: test
+  image: python:3.5-alpine
+  before_script:
+  - python -m pip install -r requirements/development.txt
+  script:
+  - python -m pytest
 
 build_image:
   stage: build
