@@ -18,6 +18,7 @@ test app:
   stage: test
   image: python:3.5-alpine
   before_script:
+  - apk add --no-cache --virtual .build-deps postgresql-dev gcc musl-dev
   - python -m pip install -r requirements/development.txt
   script:
   - python -m pytest
