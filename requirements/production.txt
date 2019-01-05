@@ -1,4 +1,4 @@
-Django==1.11
+Django==1.11.*
 django-debug-toolbar
 django-registration-redux==1.6
 django-tokenapi
