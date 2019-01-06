@@ -10,7 +10,6 @@ from tokenapi.http import JsonResponse, JsonError
 from laptimes.models import Track, Car, Laptime, Setup, LaptimeSerialiser
 
 
-@token_required
 def get(request):
     """Return laptimes according to requested car/track combo."""
     if request.method != 'GET':
