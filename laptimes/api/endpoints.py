@@ -23,7 +23,7 @@ def get(request):
         return JsonError('Missing <{}> argument.'.format(err.args[0]))
 
     if track.count() == 0 or car.count() == 0:
-        msg = 'Track and/or car were not found.'
+        msg = 'No laptimes found.'
         logger = logging.getLogger(__name__)
         logger.warning(msg, extra={'request': request, 'stack': True})
         return JsonError(msg)
