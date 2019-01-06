@@ -24,10 +24,7 @@ class Track(models.Model):
     )
 
     def __str__(self):
-        if self.layout:
-            return self.name.title() + ' ' + self.layout
-        else:
-            return self.name.title()
+        return self.ac_name
 
 
 class Car(models.Model):
@@ -47,10 +44,7 @@ class Car(models.Model):
                                blank=True)
 
     def __str__(self):
-        car = self.brand.title() + ' ' + self.model.upper()
-        if self.upgrade is not None:
-            car += ' ' + self.upgrade.title()
-        return car
+        return self.ac_name
 
 
 class Setup(models.Model):
