@@ -162,7 +162,7 @@ class LaptimeSerialiser(serializers.ModelSerializer):
 
     class Meta:
         model = Laptime
-        fields = ('splits', 'time', 'laptime')
+        fields = ('splits', 'time', 'laptime', 'user')
 
     def get_laptime(self, obj):
         return to_laptime(obj.time)
