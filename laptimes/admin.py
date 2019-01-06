@@ -12,7 +12,7 @@ class LaptimeAdmin(admin.ModelAdmin):
 
 class CarAdmin(admin.ModelAdmin):
 
-    list_display = ('brand', 'model', 'upgrade')
+    list_display = ('ac_name', 'brand', 'model', 'upgrade')
     list_per_page = 25
 
 
@@ -24,7 +24,7 @@ class SetupAdmin(admin.ModelAdmin):
 
 class TrackAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'layout', 'sectors')
+    list_display = ('ac_name', 'name', 'layout', 'sectors')
     list_per_page = 25
 
 
