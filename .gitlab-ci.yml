@@ -21,7 +21,7 @@ test app:
   - apk add --no-cache --virtual .build-deps postgresql-dev gcc musl-dev
   - python -m pip install -r requirements/development.txt
   script:
-  - python -m pytest
+  - python -m pytest --cov=laptimes --cov=profiles
 
 build_image:
   stage: build

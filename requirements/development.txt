@@ -11,3 +11,4 @@ raven
 djangorestframework==3.6.2
 pytest
 pytest-django
+pytest-cov
