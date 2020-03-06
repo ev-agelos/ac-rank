@@ -45,6 +45,9 @@ deploy_image:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
   - ssh $SERVER './deploy_ac_rank.sh' gitlab-ci-token $CI_BUILD_TOKEN
+  after_script:
+  - sleep 2
+  - curl $WEBSITE_URL
   environment:
     name: production
     url: $WEBSITE_URL
