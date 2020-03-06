@@ -8,4 +8,4 @@ gunicorn==19.6.0
 django-anymail
 sparkpost
 raven
-djangorestframework==3.6.2
+djangorestframework==3.9.1
