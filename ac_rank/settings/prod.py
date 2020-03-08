@@ -1,5 +1,3 @@
-import raven
-
 from .common import *
 
 DEBUG = False
@@ -19,10 +17,3 @@ CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_SECONDS = 31536000
-
-RAVEN_CONFIG = {
-    'dsn': '',  # NOTE set sentry dns in production
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(os.path.dirname(os.pardir)),
-}

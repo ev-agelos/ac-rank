@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'raven.contrib.django.raven_compat',
     'tokenapi',
     'anymail',
     'rest_framework',
@@ -143,7 +142,7 @@ LOGGING = {
     'disable_existing_loggers': True,
     'root': {
         'level': 'WARNING',
-        'handlers': ['sentry'],
+        'handlers': ['console'],
     },
     'formatters': {
         'verbose': {
@@ -152,11 +151,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'sentry': {
-            'level': 'WARNING', # To capture more than ERROR, change to WARNING, INFO, etc.
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            'tags': {'custom-tag': 'x'},
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -166,16 +160,6 @@ LOGGING = {
     'loggers': {
         'django.db.backends': {
             'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
             'handlers': ['console'],
             'propagate': False,
         },

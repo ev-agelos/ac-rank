@@ -7,7 +7,7 @@ psycopg2==2.8.4
 gunicorn
 django-anymail
 sendgrid
-raven
+sentry-sdk
 djangorestframework==3.11.0
 pytest
 pytest-django
