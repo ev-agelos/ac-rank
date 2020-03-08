@@ -136,7 +136,7 @@ ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, us
 LOGIN_REDIRECT_URL = '/laptimes'
 
 
-EMAIL_BACKEND = "anymail.backends.sparkpost.EmailBackend"
+EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 
 LOGGING = {
     'version': 1,
