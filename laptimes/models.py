@@ -49,8 +49,8 @@ class Car(models.Model):
 
 class Setup(models.Model):
 
-    car = models.ForeignKey(Car)
-    track = models.ForeignKey(Track)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
 
     abs = models.SmallIntegerField(null=True)
     arb_front = models.IntegerField(null=True)
@@ -140,8 +140,8 @@ class Laptime(models.Model):
     splits = ArrayField(models.PositiveIntegerField(validators=[MinValueValidator(1)]),
                         validators=[MinLengthValidator(1)])
     time = models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    track = models.ForeignKey(Track)
-    car = models.ForeignKey(Car)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
     car_setup = models.ForeignKey(Setup, null=True, blank=True,
                                   on_delete=models.SET_NULL)
 
