@@ -3,7 +3,7 @@ django-debug-toolbar
 django-registration-redux==2.7
 django-tokenapi
 django-countries
-psycopg2==2.8.4
+psycopg2-binary==2.8.4
 gunicorn
 django-anymail
 sendgrid
@@ -11,4 +11,3 @@ sentry-sdk
 djangorestframework==3.11.0
 pytest
 pytest-django
-pytest-cov

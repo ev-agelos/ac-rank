@@ -1,18 +1,14 @@
-FROM python:3.8-alpine
-
-# Hotfix for glibc hack that fixes the order of DNS resolving (i.e. check /etc/hosts first and then lookup DNS-servers).
-# To fix this we just create /etc/nsswitch.conf and add the following line:
-ONBUILD RUN echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
-
-COPY ./requirements.txt /tmp/requirements.txt
-
-RUN apk add --update postgresql-dev gcc python3-dev musl-dev && \
-    rm /var/cache/apk/* && \
-    pip install --upgrade pip && pip install setuptools --upgrade && \
-    pip install -r /tmp/requirements.txt
+FROM python:3.8-slim-buster
 
 # for static files
 RUN mkdir -p /var/www/ac-rank/static/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	&& rm -rf /var/lib/apt/lists/*
+
+COPY ./requirements.txt /tmp/requirements.txt
+
+RUN pip install -r /tmp/requirements.txt
 
 ADD . /ac_rank
 RUN chmod +x /ac_rank/docker-entrypoint.sh
