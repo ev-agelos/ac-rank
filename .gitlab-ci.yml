@@ -35,8 +35,11 @@ build_image:
   - docker build -t registry.gitlab.com/evagelos/ac-rank .
   - docker push registry.gitlab.com/evagelos/ac-rank:latest
   only:
-  - master
-  - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /RELEASE/
+  except:
+    refs:
+      - /^(?!master).+$/
 
 deploy_image:
   stage: deploy
@@ -57,8 +60,11 @@ deploy_image:
     name: production
     url: $WEBSITE_URL
   only:
-  - master
-  - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /RELEASE/
+  except:
+    refs:
+      - /^(?!master).+$/
 
 
 include:
