@@ -2,7 +2,7 @@
 
 # Collect static files
 echo "Collect static files"
-python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput --settings=ac_rank.settings
 
 # Apply database migrations
 echo "Apply database migrations"
